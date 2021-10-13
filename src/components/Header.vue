@@ -14,7 +14,7 @@
                 <div class="flex-content flex-content-light">
                     <nut-searchbar
                         v-model="val"
-                        placeText="请输入自定义文案"
+                        placeText="有什么想搜索的？"
                     ></nut-searchbar>
                 </div>
             </nut-col>
@@ -34,7 +34,13 @@
 
 <script>
     export default {
-        name: "Header.vue"
+        name: "Header.vue",
+        data(){
+            return{
+                val:''
+            }
+        }
+
     }
 </script>
 
