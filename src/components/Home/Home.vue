@@ -289,10 +289,8 @@
              */
             toArticleDetail(id){
                 this.$router.push({
-                    path:'/home/message/detail',
-                    params:{
-                        id: id
-                    }
+                    path:'/detail',
+                    query:{id:id}
                 })
             },
 

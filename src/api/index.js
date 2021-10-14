@@ -315,6 +315,14 @@ export default {
      */
     getArticleListByCategoryId(categoryId,page){
         return ajax(`/ct/content/home/recommend/${categoryId}/${page}`)
+    },
+
+    /**
+     * 查询文章详情
+     * @param id
+     */
+    getArticleDetail(id){
+        return ajax(`/ct/article/detail/${id}`)
     }
 
 }
