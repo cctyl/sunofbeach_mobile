@@ -292,5 +292,29 @@ export default {
         return ajax(`/ct/category/list`)
     },
 
+    /**
+     * 获得轮播图数据
+     */
+    getLoopList(){
+        return ajax(`/ast/home/loop/list`)
+    },
+
+    /**
+     *  获得推荐文章数据
+     * @param page
+     */
+    getRecommendArticleList(page){
+        return ajax(`/ct/content/home/recommend/${page}`)
+    },
+
+
+    /**
+     * 根据categoryId查询文章数据
+     * @param categoryId
+     * @param page
+     */
+    getArticleListByCategoryId(categoryId,page){
+        return ajax(`/ct/content/home/recommend/${categoryId}/${page}`)
+    }
 
 }

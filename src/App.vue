@@ -11,7 +11,7 @@
 
 <script>
 
-    import Header from "./components/Header";
+    import Header from "./components/Header/Header";
     import api from './api'
     export default {
         name: "App",

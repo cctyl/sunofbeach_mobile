@@ -2,7 +2,7 @@ import axios from "axios";
 
 let BASE_URL='https://api.sunofbeach.net' //阳光沙滩api接口地址
 
-export default function ajax(url, data = {mock:false}, type = "GET") {
+export default function ajax(url, data = {}, type = "GET") {
     return new Promise(function (resolve, reject) {
 
 

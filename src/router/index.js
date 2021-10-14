@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter) //vue-router本身是一个插件，需要注册
 
-import Home from "../components/Home";
+import Home from "../components/Home/Home";
 
 //创建并暴露一个路由器
 export default new VueRouter({
