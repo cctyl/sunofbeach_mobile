@@ -1,7 +1,7 @@
 <template>
     <div>
-        <!--顶部栏-->
-        <Header></Header>
+        <!--顶部栏  -->
+        <Header v-show="$route.meta.showHeader"></Header>
 
 
         <router-view></router-view>

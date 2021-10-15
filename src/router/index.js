@@ -7,6 +7,8 @@ Vue.use(VueRouter) //vue-router本身是一个插件，需要注册
 import Home from "../pages/Home/Home";
 import ArticleDetail from "../pages/ArticleDetail/ArticleDetail";
 import Login from "../pages/Login/Login";
+
+
 //创建并暴露一个路由器
 export default new VueRouter({
     routes: [
@@ -16,11 +18,18 @@ export default new VueRouter({
         },
         {
             path: '/home',
-            component: Home
+            component: Home,
+            meta:{
+                showHeader:true
+            }
         },
         {
             path: '/detail',
-            component: ArticleDetail
+            component: ArticleDetail,
+            meta:{
+                showHeader:true
+            }
+
         },
         {
             path:'/login',
