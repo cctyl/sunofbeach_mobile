@@ -72,7 +72,7 @@
 
 
                 <!--  文章内容-->
-                <div class="content" v-html="articleInfo.content"></div>
+                <div class="content markdown-body sob-article-content" v-html="articleInfo.content"></div>
 
 
 
@@ -109,7 +109,16 @@
 
 <script>
     import api from '../../api'
+    import 'github-markdown-css'
+    import 'highlight.js/styles/default.css'
+    import hljs from 'highlight.js'
 
+    const highlightCode = () => {
+        const preEl = document.querySelectorAll('pre')
+        preEl.forEach((el) => {
+            hljs.highlightBlock(el)
+        })
+    }
     export default {
         name: "ArticleDetail",
         data() {
@@ -122,6 +131,11 @@
         mounted() {
             this.id = this.$route.query.id
             this.getArticleDetail()
+            highlightCode();
+        },
+        updated() {
+            highlightCode();
+
         },
         methods: {
 
@@ -303,9 +317,49 @@
         margin-bottom: 5px;
     }
 
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+    .image-wrap img {
+        max-width: 100%;
+    }
+
+    .sob-article-content {
+        max-width: 100%;
+    }
+
+    .sob-article-content pre code {
+        max-width: 100%;
+    }
+
+    /*img 设置max-width有效*/
+    .sob-article-content img {
+        margin-top: 10px;
+        max-width: 100%;
+        cursor: zoom-in;
+    }
+
+    /* 大于等于750px作用，同理max-width为小于等于下作用 不同屏幕的特殊处理，下面是例子 */
+    @media (min-width: 750px) {
+        .title {
+            font-size: 24px;
+        }
+    }
+
+    @media (max-width: 750px) {
+        .summary {
+            font-size: 14px;
+        }
+    }
 </style>
 
 <style>
+
 
 
 </style>

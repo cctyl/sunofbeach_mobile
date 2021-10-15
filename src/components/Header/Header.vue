@@ -1,11 +1,11 @@
 <template>
-    <div   class="container">
+    <div class="container">
 
 
         <nut-row>
             <nut-col :span="3">
-                <div class="flex-content logo">
-                   SOB
+                <div class="flex-content logo" @click="toHome">
+                    SOB
                 </div>
 
 
@@ -13,8 +13,8 @@
             <nut-col :span="16">
                 <div class="flex-content flex-content-light">
                     <nut-searchbar
-                        v-model="val"
-                        placeText="有什么想搜索的？"
+                            v-model="val"
+                            placeText="有什么想搜索的？"
                     ></nut-searchbar>
                 </div>
             </nut-col>
@@ -27,17 +27,32 @@
         </nut-row>
 
 
-
-
     </div>
 </template>
 
 <script>
     export default {
         name: "Header.vue",
-        data(){
-            return{
-                val:''
+        data() {
+            return {
+                val: ''
+            }
+        },
+        methods:{
+
+            /**
+             * 跳转到首页
+             */
+            toHome(){
+
+                if (this.$route.path=='/home' || this.$route.path=='/'){
+                    console.log('在首页，不跳转')
+                }else {
+
+                    this.$router.push({
+                        path:'/home'
+                    })
+                }
             }
         }
 
@@ -46,12 +61,12 @@
 
 <style scoped>
 
-    .container{
+    .container {
         padding: 10px 5px;
     }
 
 
-    .logo{
+    .logo {
         text-align: center;
         height: 26px;
         line-height: 36px;
@@ -60,7 +75,7 @@
         margin-left: -5px;
     }
 
-    .loginText{
+    .loginText {
         height: 26px;
         line-height: 36px;
         margin-left: 9px;
@@ -68,7 +83,7 @@
 
     }
 
-    .icon-more{
+    .icon-more {
 
         height: 26px;
         line-height: 36px;
