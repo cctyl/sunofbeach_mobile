@@ -12,16 +12,20 @@
 <script>
 
     import Header from "./components/Header/Header";
-    import api from './api'
+    // import api from './api'
+
     export default {
         name: "App",
         methods: {
-            async getMoyuTopic() {
-                let moyuTopicRes = await api.getMoyuTopic()
-                console.log(moyuTopicRes)
-            }
+
+
         },
-        components:{
+        mounted() {
+            //检查token时效并获取用户信息
+            this.$store.dispatch('setUserInfo',this)
+
+        },
+        components: {
             Header
         }
 

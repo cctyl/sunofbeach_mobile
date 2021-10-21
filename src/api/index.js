@@ -323,6 +323,16 @@ export default {
      */
     getArticleDetail(id){
         return ajax(`/ct/article/detail/${id}`)
-    }
+    },
+
+
+    /**
+     * 获取文章评论
+     * @param id
+     * @returns {Promise | Promise<unknown>}
+     */
+    getArticleComment(articleId,page){
+        return ajax(`/ct/article/comment/${articleId}/${page}`)
+    },
 
 }

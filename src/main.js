@@ -10,7 +10,9 @@ import NutUI from '@nutui/nutui';
 import '@nutui/nutui/dist/nutui.css';
 NutUI.install(Vue);
 
-
+//全局设置语言环境
+import moment from "moment";
+moment.locale('zh-cn');
 
 new Vue({
   render: h => h(App),

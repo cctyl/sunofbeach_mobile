@@ -12,7 +12,180 @@
         >
         </nut-backtop>
 
+        <div v-if="isSkeletonLoading">
+            <row padding="0 10px 0">
+                <skeleton-square
+                        width="390px"
+                        height="25px"
+                ></skeleton-square>
+
+            </row>
+
+            <row slot="list" padding="15px 10px 0">
+
+
+                <column>
+                    <skeleton-square
+                            width="390px"
+                            height="168px"
+                    ></skeleton-square>
+
+                </column>
+
+
+            </row>
+
+
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+            <row slot="list" padding="15px 10px 0">
+
+                <skeleton-square
+                        width="50px"
+                        height="50px"
+                >
+                </skeleton-square>
+
+                <column>
+                    <skeleton-square
+                            width="300px"
+                            :count="2"
+                            margin="10px 10px 5px"
+                    ></skeleton-square>
+                </column>
+
+
+            </row>
+
+
+        </div>
         <nut-scroller
+                v-else
                 :scrollTo="scrollY"
                 type="vertical"
                 class="totalScroll"
@@ -68,7 +241,8 @@
 
                     <ul class="articleList">
                         <!--文章详情-->
-                        <li class="articleItem" v-for="item in recommendArticleList" :key="item.id" @click="toArticleDetail(item.id)">
+                        <li class="articleItem" v-for="item in recommendArticleList" :key="item.id"
+                            @click="toArticleDetail(item.id)">
                             <div class="left">
                                 <img :src="item.covers[0]" alt="">
                             </div>
@@ -103,6 +277,7 @@
         name: "Home.vue",
         data() {
             return {
+                isSkeletonLoading: true,//标识骨架屏是否展示
                 categoryList: [], //顶部标签数组
                 currentTag: -1,//记录当前是哪个tag被选中了
                 currentTagId: '',//记录当前被选中的tagid
@@ -176,6 +351,9 @@
                     this.recommendArticleList = result.data.list
                 }
 
+                this.$nextTick(() => {
+                    this.isSkeletonLoading = false
+                })
 
             },
 
@@ -287,16 +465,17 @@
              * 跳转到文章详情页面
              * @param id
              */
-            toArticleDetail(id){
+            toArticleDetail(id) {
                 this.$router.push({
-                    path:'/detail',
-                    query:{id:id}
+                    path: '/detail',
+                    query: {id: id}
                 })
             },
 
 
         },
         mounted() {
+            this.isSkeletonLoading = true
             //获得顶部标签页
             this.getCategoryList()
 

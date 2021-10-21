@@ -3,6 +3,7 @@
 
         <!--导航栏-->
         <nut-navbar
+                @on-click-back="back"
                 :leftShow="true"
                 :right-show="false"
         >
@@ -18,7 +19,7 @@
                 <nut-textinput
                         v-model="loginFrom.phone"
                         placeholder="请输入手机号"
-                        maxlength="5"
+                        maxlength="11"
                         :clearBtn="true"
                         :disabled="false"
                 />
@@ -40,7 +41,7 @@
                         />
                     </nut-col>
                     <nut-col :span="9">
-                        <img class="captchaImg" :src="captchaUrl+randomCode" @click="randomCode = +new Date()" alt="">
+                        <img class="captchaImg" :src="captchaUrl+randomCode" @click="refreshCode" alt="">
                     </nut-col>
                 </nut-row>
 
@@ -49,7 +50,6 @@
 
                     <button type="submit">登录</button>
                 </div>
-
 
 
             </form>
@@ -61,17 +61,32 @@
             <span>忘记密码？</span>
             <span class="regText">注册</span>
         </div>
+
+
+        <!--  版权相关  -->
+        <div class="copyright">
+
+            <span>Copyright © 2014-2021 阳光沙滩 code by TrillGates</span>
+            <span class="about">关于我们 | 加入我们 | 友情链接</span>
+
+        </div>
+
+
     </div>
 </template>
 
 <script>
+
+    import api from '../../api'
+
+    import {mapState} from 'vuex'
 
     export default {
         name: "Login",
         data() {
             return {
                 captchaUrl: 'https://api.sunofbeach.net/uc/ut/captcha?code=',
-                randomCode:'',
+                randomCode: '',
                 loginFrom: {
                     phone: '', //手机号
                     password: '',//密码
@@ -79,16 +94,71 @@
                 }
             }
         },
+        computed:{
+          ...mapState(['lastUrl'])
+        },
         mounted() {
-
-
         },
         methods: {
             /**
              * 用户登录
              */
-            login() {
-                console.log('点击了登录')
+            async login() {
+                let {phone, password, captcha} = this.loginFrom
+                //校验手机号
+                if (!(/^1[3456789]\d{9}$/.test(phone))) {
+                    this.$notify.warn('手机号格式错误！');
+                    return false;
+                }
+                //密码不能为空
+                if (!password) {
+                    this.$notify.warn('密码不能为空！');
+                    return false;
+                }
+
+                //验证码不能为空
+                if (!captcha) {
+                    this.$notify.warn('验证码不能为空！');
+                    return false;
+                }
+
+                //发送请求
+                let result = await api.login(phone, password, captcha)
+                if (!result.success) {
+
+                    //出错了，弹出提示信息
+                    this.$notify.danger(result.message);
+
+                    //更新验证码
+                    this.randomCode = parseInt(Math.random()*(10000-1+1)+1,10);
+                    this.loginFrom.captcha = ''
+                }else {
+                    this.$notify.success(result.message)
+
+
+                    //获取用户信息并存储到vuex
+                    this.$store.dispatch('setUserInfo',this)
+
+                    //跳转首页
+                    this.$router.replace(this.lastUrl)
+
+                }
+
+
+            },
+
+            /**
+             * 返回上一页
+             */
+            back() {
+                this.$router.back()
+            },
+
+            /**
+             * 刷新验证码
+             */
+            refreshCode(){
+                this.randomCode = parseInt(Math.random()*(10000-1+1)+1,10);
             }
         }
     }
@@ -115,18 +185,19 @@
 
     }
 
-    .captchaImg{
+    .captchaImg {
 
-        margin: 17px 0  0 15px;
+        margin: 17px 0 0 15px;
 
 
     }
 
-    .loginbtn{
+    .loginbtn {
         text-align: center;
         margin-top: 20px;
     }
-    .loginbtn button{
+
+    .loginbtn button {
         width: 100%;
         height: 32px;
         background-color: #409eff;
@@ -135,15 +206,28 @@
         border-radius: 5px;
     }
 
-    .other{
+    .other {
         display: flex;
         justify-content: space-between;
 
         font-size: 17px;
         padding: 20px 20px 0;
-        color: #2d5593;
+        color: #606bc2;
     }
 
+    .copyright {
+        margin-top: 252px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .copyright .about {
+        margin-top: 10px;
+    }
 
 
 </style>

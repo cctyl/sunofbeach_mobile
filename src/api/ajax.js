@@ -2,11 +2,25 @@ import axios from "axios";
 
 let BASE_URL='https://api.sunofbeach.net' //阳光沙滩api接口地址
 
+
 export default function ajax(url, data = {}, type = "GET") {
     return new Promise(function (resolve, reject) {
 
 
-        switch (type) {
+
+        axios({
+            method: type,
+            url: url,
+            baseURL:BASE_URL,
+            data:data,
+            withCredentials:true
+        }).then(response => {
+            resolve(response.data)
+        }).catch(reason => {
+            reject(reason)
+        })
+
+      /*  switch (type) {
             case "GET":
                 axios.get(BASE_URL+url, {
                     params: data
@@ -17,7 +31,9 @@ export default function ajax(url, data = {}, type = "GET") {
                 });
                 break;
             case "POST":
-                axios.post(BASE_URL+url, data)
+                axios.post(BASE_URL+url, data,{
+
+                })
                     .then(function (response) {
                         resolve(response.data)
                     })
@@ -48,6 +64,6 @@ export default function ajax(url, data = {}, type = "GET") {
                 reject('请求类型错误')
         }
 
-
+*/
     })
 }
