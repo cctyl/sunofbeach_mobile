@@ -1,16 +1,18 @@
 <template>
     <div>
 
+
         <nut-backtop
                 :class="{show: isShowBacktop }"
                 @click="backToTop"
-                el-id="totalScroll"
+                el-id="app"
                 :bottom="20"
                 :right="20"
                 :z-index="10"
                 :distance="200"
         >
         </nut-backtop>
+
 
         <div v-if="isSkeletonLoading">
             <row padding="0 10px 0">
@@ -184,7 +186,11 @@
 
 
         </div>
+
+
         <nut-scroller
+
+                ref="mynutscroller"
                 v-else
                 :scrollTo="scrollY"
                 type="vertical"
@@ -196,8 +202,9 @@
                 :is-loading="isLoading"
                 @scrollToCbk="scrollToCbk"
                 unloadMoreTxt="到底了"
+
         >
-            <div slot="list" class="nut-hor-list-item ">
+            <div slot="list" class="nut-hor-list-item">
 
                 <!--标签栏-->
                 <nut-scroller class="tagScroll">
@@ -263,7 +270,10 @@
 
 
                 </div>
+
             </div>
+
+
         </nut-scroller>
     </div>
 </template>
@@ -288,6 +298,7 @@
                 isShowBacktop: false, //是否显示返回顶部按钮
                 scrollY: 0, //页面要滚动到哪个位置，是负数
                 currentScroll: 0,//现在滚动到哪了
+                scrollElem: {},//正在滚动的容器
             }
         },
         methods: {
@@ -401,7 +412,9 @@
              * 返回页面顶部
              */
             backToTop() {
-                clearInterval(this.scrollTimer)
+
+                //这些是旧代码，不好用，换一种方式
+               /* clearInterval(this.scrollTimer)
                 //这里通过一个定时器的方式，逐步往上滑动，实现滑动效果
                 this.scrollTimer = setInterval(() => {
                     //只有当距离为负数，也就是页面还有一段距离才到顶部，这时候才滚动
@@ -422,11 +435,14 @@
                         this.currentScroll += moveDistance
                         this.scrollY = this.currentScroll
                     } else {
-
                         //滑到顶部了，就清楚定时器
                         clearInterval(this.scrollTimer)
                     }
-                }, 50)
+                }, 50)*/
+
+                this.scrollElem.style = 'min-height: auto; transform: translate3d(0px, -1px, 0px); transition: transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0s;'
+
+
             },
 
             /**
@@ -487,6 +503,14 @@
 
             //获得推荐文章数据
             this.getArticleList(1)
+
+
+            let _this = this
+            //找到这个滚动的容器
+            setTimeout(()=>{
+                _this.scrollElem = document.getElementsByClassName('nut-vert-list')[0]
+            },500)
+
 
 
         }

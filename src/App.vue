@@ -17,8 +17,9 @@
     export default {
         name: "App",
         methods: {
-
-
+            onClick() {
+                console.log("触发回到顶部按钮")
+            }
         },
         mounted() {
             //检查token时效并获取用户信息
