@@ -197,7 +197,6 @@
                 @scrollToCbk="scrollToCbk"
                 unloadMoreTxt="到底了"
         >
-
             <div slot="list" class="nut-hor-list-item ">
 
                 <!--标签栏-->
@@ -451,14 +450,18 @@
                 if (tagItem) {
                     console.log('不是推荐页，是' + tagItem.categoryName)
                     this.currentTagId = tagItem.id
-                    this.getArticleList(1, false)
+
 
                 } else {
                     console.log('是推荐页')
 
                     //如果是推荐页，那么将currentTagId置为null
                     this.currentTagId = null
+
+
                 }
+
+                this.getArticleList(1, false)
             },
 
             /**
