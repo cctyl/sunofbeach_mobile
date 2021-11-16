@@ -21,7 +21,7 @@
             <nut-col :span="3">
                 <div v-if="!userInfo" class="flex-content loginText" @click="toLogin">登录</div>
 
-                <div  v-else @click="toUserInfo">
+                <div class="userinfo" v-else @click="toUserInfo">
                     <nut-badge
 
                             top="5px"
@@ -35,10 +35,67 @@
                                 bg-icon
                                 :bg-image="userInfo.avatar"
                         ></nut-avatar>
+
                     </nut-badge>
+
+                    <ul class="message-box">
+                        <nut-badge
+                                :value="9"
+                                top="9px"
+                                right="-10px"
+
+                        >
+                            <li class="mitem">问题回答</li>
+                        </nut-badge>
+
+                        <nut-badge
+                                :value="9"
+                                top="9px"
+                                right="-10px"
+
+                        >
+                            <li class="mitem">文章回复</li>
+                        </nut-badge>
+
+                        <nut-badge
+                                :value="9"
+                                top="9px"
+                                right="-10px"
+
+                        >
+                            <li class="mitem">动态评论</li>
+                        </nut-badge>
+
+                        <nut-badge
+                                :value="9"
+                                top="9px"
+                                right="-10px"
+
+                        >
+                            <li class="mitem">给朕点赞</li>
+                        </nut-badge>
+
+                        <nut-badge
+                                :value="9"
+                                top="9px"
+                                right="-10px"
+
+                        >
+                            <li class="mitem">系统通知</li>
+                        </nut-badge>
+
+                        <nut-badge
+                                :value="9"
+                                top="9px"
+                                right="-10px"
+                        >
+                            <li class="mitem">@朕消息</li>
+                        </nut-badge>
+
+
+                    </ul>
+
                 </div>
-
-
 
 
             </nut-col>
@@ -94,7 +151,7 @@
             /**
              * 到个人详情页面
              */
-            toUserInfo(){
+            toUserInfo() {
                 console.log("跳转个人详情")
             },
         }
@@ -140,5 +197,26 @@
         margin-left: 12px;
         margin-top: 5px;
 
+    }
+
+    .userinfo {
+        position: relative;
+    }
+
+    .message-box {
+        border: 1px solid #ccc;
+        margin-top: 8px;
+        border-radius: 4%;
+        padding: 15px 20px 0px 20px;
+        z-index: 2;
+        position: absolute;
+        left: -90%;
+        background-color: #fff;
+        width: 90px;
+    }
+
+    .message-box .mitem{
+
+        margin-bottom: 15px;
     }
 </style>

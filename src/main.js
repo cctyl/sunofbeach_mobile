@@ -3,6 +3,9 @@ import App from './App.vue' //引入根组件
 import router from './router'
 import store from './store'
 
+import axios from "axios";
+axios.defaults.withCredentials = true; //配置为true
+
 Vue.config.productionTip = false
 
 //注册nutui

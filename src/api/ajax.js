@@ -7,7 +7,6 @@ export default function ajax(url, data = {}, type = "GET") {
     return new Promise(function (resolve, reject) {
 
 
-
         axios({
             method: type,
             url: url,

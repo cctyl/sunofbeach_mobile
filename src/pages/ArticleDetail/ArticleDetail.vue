@@ -177,7 +177,7 @@
 
                                 </div>
 
-                                <div v-else>
+                                <div v-if="item.subComments.length>1 && item.showMore">
                                     <div class="subcomment" v-for="subitem in item.subComments" :key="subitem._id">
                                         <!--评论人头像-->
                                         <div class="subleft">
