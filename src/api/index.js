@@ -335,4 +335,22 @@ export default {
         return ajax(`/ct/article/comment/${articleId}/${page}`)
     },
 
+    /**
+     * 获取本人未读消息
+     * 凭证存储在cookie当中了
+     * @returns {Promise | Promise<unknown>}
+     */
+    getMsgCount() {
+        return ajax(`/ct/msg/count`)
+    },
+
+
+
+
+    /**
+     * 将消息全部已读
+     */
+    readAllMsg(){
+        return ajax(`/ct/msg/read`)
+    }
 }

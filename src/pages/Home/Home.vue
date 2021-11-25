@@ -250,7 +250,7 @@
                         <li class="articleItem" v-for="item in recommendArticleList" :key="item.id"
                             @click="toArticleDetail(item.id)">
                             <div class="left">
-                                <img :src="item.covers[0]" alt="">
+                                <img style="object-fit: cover;" :src="item.covers[0]" alt="">
                             </div>
                             <div class="right">
                                 <h2 class="title">{{item.title}}</h2>

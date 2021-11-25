@@ -21,15 +21,16 @@
             <nut-col :span="3">
                 <div v-if="!userInfo" class="flex-content loginText" @click="toLogin">登录</div>
 
-                <div class="userinfo" v-else @click="toUserInfo">
+                <div class="userinfo" v-else @click="showMsgBox">
                     <nut-badge
 
                             top="5px"
                             right="18px"
-                            :isDot="true"
+                            :isDot="hasNewMessage"
                             class="item"
                     >
                         <nut-avatar
+
                                 class="user-avatar"
 
                                 bg-icon
@@ -38,9 +39,9 @@
 
                     </nut-badge>
 
-                    <ul class="message-box">
+                    <ul class="message-box" v-if="msgBoxShow">
                         <nut-badge
-                                :value="9"
+                                :value="msgData.wendaMsgCount"
                                 top="9px"
                                 right="-10px"
 
@@ -49,7 +50,7 @@
                         </nut-badge>
 
                         <nut-badge
-                                :value="9"
+                                :value="msgData.articleMsgCount"
                                 top="9px"
                                 right="-10px"
 
@@ -58,7 +59,7 @@
                         </nut-badge>
 
                         <nut-badge
-                                :value="9"
+                                :value="msgData.momentCommentCount"
                                 top="9px"
                                 right="-10px"
 
@@ -67,7 +68,7 @@
                         </nut-badge>
 
                         <nut-badge
-                                :value="9"
+                                :value="msgData.thumbUpMsgCount"
                                 top="9px"
                                 right="-10px"
 
@@ -76,7 +77,7 @@
                         </nut-badge>
 
                         <nut-badge
-                                :value="9"
+                                :value="msgData.systemMsgCount"
                                 top="9px"
                                 right="-10px"
 
@@ -85,13 +86,13 @@
                         </nut-badge>
 
                         <nut-badge
-                                :value="9"
+                                :value="msgData.atMsgCount"
                                 top="9px"
                                 right="-10px"
                         >
-                            <li class="mitem">@朕消息</li>
+                            <li class="mitem"> @ 朕消息</li>
                         </nut-badge>
-
+                        <li class="mitem" @click.stop="readAll">全部已读 <i class="iconfont icon-qingchu"></i></li>
 
                     </ul>
 
@@ -110,18 +111,47 @@
 
 <script>
     import {mapState} from 'vuex'
+    import api from "../../api/index"
 
     export default {
         name: "Header.vue",
         data() {
             return {
-                searchStr: ''
+                searchStr: '',
+                //存储消息数
+                msgData: {
+                    articleMsgCount: 0,
+                    atMsgCount: 0,
+                    momentCommentCount: 0,
+                    shareMsgCount: 0,
+                    systemMsgCount: 0,
+                    thumbUpMsgCount: 0,
+                    wendaMsgCount: 0
+                },
+                msgBoxShow: false,//决定是否展示消息盒子
             }
         },
         computed: {
-            ...mapState(['userInfo'])
+            ...mapState(['userInfo']),
+
+            /**
+             *计算是否有新消息
+             */
+            hasNewMessage() {
+
+                for (let key in this.msgData) {
+                    if (this.msgData[key] > 0) {
+                        return true
+                    }
+                }
+                return false
+            },
         },
 
+        mounted() {
+            this.getMsgCount()
+
+        },
 
         methods: {
 
@@ -149,11 +179,50 @@
 
 
             /**
-             * 到个人详情页面
+             * 展示或关闭消息盒子
              */
-            toUserInfo() {
-                console.log("跳转个人详情")
+            showMsgBox() {
+                this.msgBoxShow = !this.msgBoxShow
             },
+
+
+            /**
+             * 获取未读消息数量
+             */
+            async getMsgCount() {
+                //直接发送请求获取未读消息数量
+                let result = await api.getMsgCount();
+                this.msgData = result.data;
+
+            },
+
+
+            /**
+             * 将消息全部已读
+             */
+            async readAll() {
+                let result = await api.readAllMsg()
+
+
+                if (result.success === true) {
+                    this.$notify.success('已读成功！');
+                    //关闭消息盒子
+                    this.msgBoxShow = false
+
+                    //既然全部已读，那么这个消息盒子中的数据必定是0
+                    this.msgData = {
+                        articleMsgCount: 0,
+                        atMsgCount: 0,
+                        momentCommentCount: 0,
+                        shareMsgCount: 0,
+                        systemMsgCount: 0,
+                        thumbUpMsgCount: 0,
+                        wendaMsgCount: 0
+                    }
+                }
+            },
+
+
         }
 
     }
@@ -210,12 +279,12 @@
         padding: 15px 20px 0px 20px;
         z-index: 2;
         position: absolute;
-        left: -90%;
+        left: -100%;
         background-color: #fff;
         width: 90px;
     }
 
-    .message-box .mitem{
+    .message-box .mitem {
 
         margin-bottom: 15px;
     }
