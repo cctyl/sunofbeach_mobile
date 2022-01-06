@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app">
         <!--顶部栏  -->
         <Header v-show="$route.meta.showHeader"></Header>
 
@@ -35,4 +35,7 @@
 
 <style>
 
+    .app{
+        height: 100%;
+    }
 </style>

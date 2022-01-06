@@ -41,7 +41,7 @@
                         />
                     </nut-col>
                     <nut-col :span="9">
-                        <img class="captchaImg" :src="captchaUrl+randomCode" @click="refreshCode" alt="">
+                        <img class="captchaImg" id="captcha" @click="loadCaptcha" alt="">
                     </nut-col>
                 </nut-row>
 
@@ -85,7 +85,8 @@
         name: "Login",
         data() {
             return {
-                captchaUrl: 'https://api.sunofbeach.net/uc/ut/captcha?code=',
+                captchaUrl: 'https://api.sunofbeaches.com/uc/ut/captcha?code=',
+
                 randomCode: '',
                 loginFrom: {
                     phone: '', //手机号
@@ -94,10 +95,11 @@
                 }
             }
         },
-        computed:{
-          ...mapState(['lastUrl'])
+        computed: {
+            ...mapState(['lastUrl'])
         },
         mounted() {
+            this.loadCaptcha()
         },
         methods: {
             /**
@@ -105,6 +107,7 @@
              */
             async login() {
                 let {phone, password, captcha} = this.loginFrom
+
                 //校验手机号
                 if (!(/^1[3456789]\d{9}$/.test(phone))) {
                     this.$notify.warn('手机号格式错误！');
@@ -123,6 +126,7 @@
                 }
 
                 //发送请求
+
                 let result = await api.login(phone, password, captcha)
                 if (!result.success) {
 
@@ -130,14 +134,14 @@
                     this.$notify.danger(result.message);
 
                     //更新验证码
-                    this.randomCode = parseInt(Math.random()*(10000-1+1)+1,10);
+                    this.randomCode = parseInt(Math.random() * (10000 - 1 + 1) + 1, 10);
                     this.loginFrom.captcha = ''
-                }else {
+                } else {
                     this.$notify.success(result.message)
 
 
                     //获取用户信息并存储到vuex
-                    this.$store.dispatch('setUserInfo',this)
+                    this.$store.dispatch('setUserInfo', this)
 
                     //跳转首页
                     this.$router.replace(this.lastUrl)
@@ -154,11 +158,23 @@
                 this.$router.back()
             },
 
+
             /**
-             * 刷新验证码
+             * 加载验证码
              */
-            refreshCode(){
-                this.randomCode = parseInt(Math.random()*(10000-1+1)+1,10);
+            loadCaptcha() {
+                this.randomCode = parseInt(Math.random() * (10000 - 1 + 1) + 1, 10);
+
+                fetch(this.captchaUrl + this.randomCode).then((response) => {
+                    //获取到key
+                    let l_c_i = response.headers.get("l_c_i");
+                    localStorage.setItem("l_c_i", l_c_i);
+
+                    response.blob().then(function (myBlob) {
+                        const urlCreator = window.URL || window.webkitURL;
+                        document.getElementById("captcha").src = urlCreator.createObjectURL(myBlob);
+                    });
+                });
             }
         }
     }

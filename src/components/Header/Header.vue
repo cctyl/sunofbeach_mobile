@@ -21,13 +21,13 @@
             <nut-col :span="3">
                 <div v-if="!userInfo" class="flex-content loginText" @click="toLogin">登录</div>
 
-                <div class="userinfo" v-else @click="showMsgBox">
+                <div class="userinfo" v-else  @click="showMsgBox">
                     <nut-badge
+
 
                             top="5px"
                             right="18px"
                             :isDot="hasNewMessage"
-                            class="item"
                     >
                         <nut-avatar
 
@@ -46,7 +46,7 @@
                                 right="-10px"
 
                         >
-                            <li class="mitem">问题回答</li>
+                            <li class="mitem" @click.stop="toMessage(1)">问题回答</li>
                         </nut-badge>
 
                         <nut-badge
@@ -54,8 +54,9 @@
                                 top="9px"
                                 right="-10px"
 
+
                         >
-                            <li class="mitem">文章回复</li>
+                            <li class="mitem"  @click.stop="toMessage(2)">文章回复</li>
                         </nut-badge>
 
                         <nut-badge
@@ -63,8 +64,9 @@
                                 top="9px"
                                 right="-10px"
 
+
                         >
-                            <li class="mitem">动态评论</li>
+                            <li class="mitem"  @click.stop="toMessage(3)">动态评论</li>
                         </nut-badge>
 
                         <nut-badge
@@ -72,8 +74,9 @@
                                 top="9px"
                                 right="-10px"
 
+
                         >
-                            <li class="mitem">给朕点赞</li>
+                            <li class="mitem"   @click.stop="toMessage(4)">给朕点赞</li>
                         </nut-badge>
 
                         <nut-badge
@@ -81,16 +84,18 @@
                                 top="9px"
                                 right="-10px"
 
+
                         >
-                            <li class="mitem">系统通知</li>
+                            <li class="mitem"  @click.stop="toMessage(5)">系统通知</li>
                         </nut-badge>
 
                         <nut-badge
                                 :value="msgData.atMsgCount"
                                 top="9px"
                                 right="-10px"
+
                         >
-                            <li class="mitem"> @ 朕消息</li>
+                            <li class="mitem"   @click.stop="toMessage(6)"> @ 朕消息</li>
                         </nut-badge>
                         <li class="mitem" @click.stop="readAll">全部已读 <i class="iconfont icon-qingchu"></i></li>
 
@@ -182,6 +187,7 @@
              * 展示或关闭消息盒子
              */
             showMsgBox() {
+                console.log("showMsgBox")
                 this.msgBoxShow = !this.msgBoxShow
             },
 
@@ -222,6 +228,19 @@
                 }
             },
 
+            /**
+             * 跳转到消息页面
+             * @param type
+             */
+            toMessage(type){
+
+                this.msgBoxShow = false
+                this.$router.push({
+                    path: '/message',
+                    query:{type}
+                })
+                console.log("tomessage："+type)
+            },
 
         }
 

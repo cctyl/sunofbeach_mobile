@@ -19,7 +19,6 @@ export default {
         //这里需要引入md5加密
         // 安装 npm install blueimp-md5
         // 引入
-
         let md5Password = md5(password)
 
         return ajax(`/uc/user/login/${captcha}`, {
@@ -352,5 +351,50 @@ export default {
      */
     readAllMsg(){
         return ajax(`/ct/msg/read`)
-    }
+    },
+
+
+    /**
+     * 获取文章评论列表
+     */
+    getArticleMessage(page=1){
+        return ajax(`/ct/ucenter/message/article/${page}`)
+    },
+
+    /**
+     * 获取动态评论列表
+     */
+    getMomentMessage(page=1){
+        return ajax(`/ct/ucenter/moment/moment/${page}`)
+    },
+
+    /**
+     * 获取问答评论列表
+     */
+    getWendaMessage(page=1){
+        return ajax(`/ct/ucenter/message/wenda/${page}`)
+    },
+
+
+    /**
+     * 获取点赞评论列表
+     */
+    getThumbMessage(page=1){
+        return ajax(`/ct/ucenter/message/thumb/${page}`)
+    },
+
+
+    /**
+     * 获取系统通知列表
+     */
+    getSystemMessage(page=1){
+        return ajax(`/ct/ucenter/message/system/${page}`)
+    },
+
+    /**
+     * 获取被at的消息
+     */
+    getAtMessage(page=1){
+        return ajax(`/ct/ucenter/message/at/${page}`)
+    },
 }

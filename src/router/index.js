@@ -9,6 +9,7 @@ import store from '../store/index'
 import Home from "../pages/Home/Home";
 import ArticleDetail from "../pages/ArticleDetail/ArticleDetail";
 import Login from "../pages/Login/Login";
+import Message from "../pages/Message/Message";
 
 const router = new VueRouter({
     routes: [
@@ -34,7 +35,15 @@ const router = new VueRouter({
         {
             path:'/login',
             component:Login
+        },
+        {
+            path:'/message',
+            component:Message,
+            meta:{
+                showHeader:true
+            }
         }
+
 
     ]
 })
