@@ -2,7 +2,7 @@
     <div class="container">
 
 
-        <nut-row>
+        <nut-row >
             <nut-col :span="3">
                 <div class="flex-content logo" @click="toHome">
                     SOB
@@ -46,7 +46,7 @@
                                 right="-10px"
 
                         >
-                            <li class="mitem" @click.stop="toMessage(1)">问题回答</li>
+                            <li class="mitem" @click.stop="toMessage(4)">问题回答</li>
                         </nut-badge>
 
                         <nut-badge
@@ -56,7 +56,7 @@
 
 
                         >
-                            <li class="mitem"  @click.stop="toMessage(2)">文章回复</li>
+                            <li class="mitem"  @click.stop="toMessage(0)">文章回复</li>
                         </nut-badge>
 
                         <nut-badge
@@ -76,7 +76,7 @@
 
 
                         >
-                            <li class="mitem"   @click.stop="toMessage(4)">给朕点赞</li>
+                            <li class="mitem"   @click.stop="toMessage(1)">给朕点赞</li>
                         </nut-badge>
 
                         <nut-badge
@@ -95,9 +95,10 @@
                                 right="-10px"
 
                         >
-                            <li class="mitem"   @click.stop="toMessage(6)"> @ 朕消息</li>
+                            <li class="mitem"   @click.stop="toMessage(2)"> @朕消息</li>
                         </nut-badge>
                         <li class="mitem" @click.stop="readAll">全部已读 <i class="iconfont icon-qingchu"></i></li>
+                        <li class="mitem" @click.stop="msgBoxShow=false">收起列表 <i class="iconfont icon-anniu_jiantoushouqi_o"></i></li>
 
                     </ul>
 
@@ -198,6 +199,7 @@
             async getMsgCount() {
                 //直接发送请求获取未读消息数量
                 let result = await api.getMsgCount();
+                console.log(result)
                 this.msgData = result.data;
 
             },
@@ -239,7 +241,7 @@
                     path: '/message',
                     query:{type}
                 })
-                console.log("tomessage："+type)
+                // console.log("tomessage："+type)
             },
 
         }

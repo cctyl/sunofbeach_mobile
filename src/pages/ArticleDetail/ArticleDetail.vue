@@ -229,19 +229,23 @@
                 写评论
             </span>
 
-            <span class="dianzan right">
-                <i class="iconfont tubiao  icon-dianzan"></i>
-                <span>{{articleInfo.thumbUp}}</span>
-            </span>
-            <span class="collect right">
-                <i class="iconfont tubiao icon-shoucang"></i>
-                <span>收藏</span>
-            </span>
+            <div class="right">
 
-            <span class="share right">
-                <i class="iconfont tubiao icon-fenxiang"></i>
-                <span>分享</span>
-            </span>
+                <span class="dianzan btn">
+                    <i class="iconfont tubiao  icon-dianzan"></i>
+                    <span class="desc">{{articleInfo.thumbUp}}</span>
+                </span>
+                <span class="collect btn">
+                    <i class="iconfont tubiao icon-shoucang2"></i>
+                    <span  class="desc">收藏</span>
+                </span>
+
+                <span class="share btn">
+                    <i class="iconfont tubiao icon-fenxiang1"></i>
+                    <span  class="desc">分享</span>
+                </span>
+            </div>
+
         </div>
     </div>
 
@@ -311,6 +315,7 @@
              */
             async getCommentList() {
                 let commentResult = await api.getArticleComment(this.id, this.commentPage)
+
                 //对时间进行一下处理
                 let commentList = commentResult.data.content.map(item => {
 
@@ -330,9 +335,12 @@
              * 计算距离现在有多长时间
              */
             calcTime(timeStr) {
-
-                return moment(timeStr, "YYYY-MM-DD HH:mm").fromNow()
-
+                let formatResult = moment(timeStr, "YYYY-MM-DD HH:mm").fromNow()
+                if (formatResult=='Invalid date'){
+                    return timeStr
+                }else {
+                    return formatResult
+                }
             }
 
         }
@@ -474,6 +482,7 @@
         bottom: 0;
         background-color: #fff;
         border-top: 1px solid #ccc;
+
     }
 
 
@@ -502,9 +511,24 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        margin-right: 40px;
+        margin-right: 10px;
+
+    }
+    .footerTool .btn .desc {
+        width: 32px;
     }
 
+    .right{
+
+        display: flex;
+        flex: 1;
+        justify-content: space-around;
+    }
+
+
+    .dianzan{
+        font-size: 12px;
+    }
     .tubiao {
         font-size: 20px;
         margin-bottom: 5px;

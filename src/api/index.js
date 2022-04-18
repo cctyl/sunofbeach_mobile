@@ -365,7 +365,7 @@ export default {
      * 获取动态评论列表
      */
     getMomentMessage(page=1){
-        return ajax(`/ct/ucenter/moment/moment/${page}`)
+        return ajax(`/ct/ucenter/message/moment/${page}`)
     },
 
     /**

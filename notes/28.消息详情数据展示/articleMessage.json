@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "code": 10000,
+  "message": "获取评论成功",
+  "data": {
+    "content": [
+      {
+        "_id": "920626252711198720",
+        "bUid": "1314408005793603584",
+        "articleId": "1469638310052782082",
+        "nickname": "冒着泡泡的汽水儿",
+        "avatar": "https://images.sunofbeaches.com/content/2021_05_18/844171416617091072.png",
+        "uid": "1255088796991492096",
+        "hasRead": "1",
+        "title": "基于大数据监控微信好友运动状态",
+        "content": "用户画像分析好像专门出了这种职业的，我觉得你可以！",
+        "createTime": "2021-12-15 10:40",
+        "timeText": null
+      }
+
+    ],
+    "pageable": {
+      "sort": {
+        "unsorted": true,
+        "sorted": false
+      },
+      "pageSize": 30,
+      "pageNumber": 0,
+      "offset": 0,
+      "unpaged": false,
+      "paged": true
+    },
+    "totalPages": 2,
+    "last": false,
+    "totalElements": 34,
+    "first": true,
+    "sort": {
+      "unsorted": true,
+      "sorted": false
+    },
+    "numberOfElements": 30,
+    "size": 30,
+    "number": 0
+  }
+}

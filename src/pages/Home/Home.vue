@@ -202,7 +202,6 @@
                 :is-loading="isLoading"
                 @scrollToCbk="scrollToCbk"
                 unloadMoreTxt="到底了"
-
         >
             <div slot="list" class="nut-hor-list-item">
 
@@ -399,6 +398,7 @@
              * 页面滚动时的回调
              */
             scrollChange(scrollY) {
+
                 this.currentScroll = scrollY
                 if ((-scrollY) > 200) {
                     this.isShowBacktop = true
@@ -440,9 +440,20 @@
                     }
                 }, 50)*/
 
-                this.scrollElem.style = 'min-height: auto; transform: translate3d(0px, -1px, 0px); transition: transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0s;'
+
+                this.scrollElem.style.transform = 'translate3d(0px, -1px, 0px)'
 
 
+                //因nutui本身会记忆 位置，滑动屏幕后又会回到之前的位置,所以动画播放完毕后，需要触发滚动事件，使的nutui记忆的位置与当前位置同步
+                setTimeout(()=>{
+                    //scrollY 必须变化，才会触发nutui的滚动事件
+                    if (this.scrollY<-2){
+                        this.scrollY = -.02
+                    }else {
+                        this.scrollY -= 0.2
+                    }
+
+                },1000)
             },
 
             /**
@@ -450,7 +461,7 @@
              * 可以不写内容，但似乎不能没有
              */
             scrollToCbk() {
-
+                console.log("scrollToCbk")
             },
 
             /**
@@ -509,6 +520,9 @@
             //找到这个滚动的容器
             setTimeout(()=>{
                 _this.scrollElem = document.getElementsByClassName('nut-vert-list')[0]
+
+
+
             },500)
 
 

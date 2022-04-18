@@ -1,0 +1,46 @@
+{
+  "success": true,
+  "code": 10000,
+  "message": "获取消息列表成功.",
+  "data": {
+    "content": [
+      {
+        "_id": "1478977947539898369",
+        "beUid": "1314408005793603584",
+        "beNickname": null,
+        "uid": "1139423796017500160",
+        "nickname": "断点-含光君",
+        "url": "/m/1478915274399842305#1478977947539898369",
+        "content": "这么丑你也啃了？",
+        "type": "moment",
+        "hasRead": "0",
+        "publishTime": "2022-01-06 14:33",
+        "timeText": null,
+        "avatar": "https://imgs.sunofbeaches.com/group1/M00/00/04/rBsADV2YuTKABc4DAABfJHgYqP8031.png",
+        "exId": "1478915274399842305"
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "unsorted": false,
+        "sorted": true
+      },
+      "pageSize": 10,
+      "pageNumber": 0,
+      "offset": 0,
+      "unpaged": false,
+      "paged": true
+    },
+    "totalPages": 16,
+    "last": false,
+    "totalElements": 157,
+    "first": true,
+    "sort": {
+      "unsorted": false,
+      "sorted": true
+    },
+    "numberOfElements": 10,
+    "size": 10,
+    "number": 0
+  }
+}
