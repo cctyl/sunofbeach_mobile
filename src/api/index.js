@@ -165,7 +165,7 @@ export default {
      * 给动态点赞
      * @param momentId
      */
-    thumbUp(momentId) {
+    momentThumbUp(momentId) {
 
         return ajax(`/ct/moyu/thumb-up/${momentId}`, null, "PUT")
     },
@@ -396,5 +396,55 @@ export default {
      */
     getAtMessage(page=1){
         return ajax(`/ct/ucenter/message/at/${page}`)
+    },
+
+    /**
+     * 文章点赞
+     * @param articleId
+     * @returns {Promise | Promise<unknown>}
+     */
+    articleThumbUp(articleId) {
+        return ajax(`/ct/article/thumb-up/${articleId}`, null, "PUT")
+    },
+    /**
+     * 检查文章点赞数，判断是否已经点赞
+     * @param articleId
+     */
+    checkArticleThumbUp(articleId) {
+        return ajax(`/ct/article/check-thumb-up/${articleId}`)
+    },
+    /**
+     * 判断文章是否被收藏
+     * @param articleUrl
+     */
+    checkArticleCollected(articleUrl) {
+        return ajax(`/ct/favorite/checkCollected?url=${articleUrl}`)
+    },
+
+    /**
+     * 获取收藏夹列表
+     * @param page
+     */
+    getCollectList(page){
+
+        return ajax(`/ct/collection/list/${page}`)
+    },
+
+
+    /**
+     * 收藏文章
+     * @param data
+     */
+    collectArticle(data){
+
+        return ajax(`/ct/favorite`, data, 'POST')
+    },
+
+    /**
+     * 取消收藏
+     * @param collectId
+     */
+    cancelCollect(favoriteId) {
+        return ajax(`/ct/favorite/${favoriteId}`, null, 'DELETE')
     },
 }
