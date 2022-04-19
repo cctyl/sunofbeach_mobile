@@ -119,16 +119,18 @@
 
 
                 <!--  文章内容-->
-                  <div class="content markdown-body sob-article-content" v-html="articleInfo.content"></div>
+                <div class="content markdown-body sob-article-content" v-html="articleInfo.content"></div>
 
-                <!--分隔符-->
-                <div class="line"></div>
+
+
+
+
                 <!--文章评论-->
                 <div class="review">
 
                     <div class="reviewHeader">
                         <span>评论({{commentList.length}})</span>
-                        <span class="iconfont icon-edit">写评论</span>
+                        <span class="iconfont icon-edit" @click="openCommentPanel(false)">写评论</span>
 
                     </div>
 
@@ -149,8 +151,44 @@
                                 <!--评论内容-->
                                 <div class="reviewBottom">{{item.commentContent}}</div>
 
+                                <!--回复评论的按钮-->
+                                <div class="comment-btn">
+                                    <span
+                                        @click="openCommentPanel(true,item)"
+                                    >回复</span>
+                                </div>
+
                                 <!--下面的子评论-->
-                                <!--太长就不显示这么多-->
+                                <!--只有一条回复就直接展示-->
+                                <div v-if="item.subComments.length===1">
+                                    <div class="subcomment">
+                                        <!--评论人头像-->
+                                        <div class="subleft">
+                                            <img :src="item.subComments[0].yourAvatar">
+                                        </div>
+
+                                        <div class="subreviewRight">
+                                            <!--评论人信息，点赞-->
+                                            <div class="subtop">
+                                                <span class="subreviewNikename">{{item.subComments[0].yourNickname}}</span>
+                                                <span >{{item.subComments[0].publishTime}}</span>
+                                            </div>
+                                            <!--评论内容-->
+                                            <p class="subreviewBottom">
+                                                {{item.subComments[0].beNickname? '回复 '+item.subComments[0].beNickname+':':'' }}
+                                                {{item.subComments[0].content}}
+                                            </p>
+                                            <!--回复评论的按钮-->
+                                            <div class="comment-btn">
+
+                                                <span @click="openCommentPanel(true,item.subComments[0])">回复</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!--有一条以上，但是没有做展开，就只显示一条，并添加展开按钮-->
                                 <div v-if="item.subComments.length>1 && !item.showMore">
                                     <div class="subcomment">
                                         <!--评论人头像-->
@@ -169,14 +207,17 @@
                                                 {{item.subComments[0].beNickname? '回复 '+item.subComments[0].beNickname+':':'' }}
                                                 {{item.subComments[0].content}}
                                             </p>
+                                            <!--回复评论的按钮-->
+                                            <div class="comment-btn">
+                                                <span  @click="openCommentPanel(true,item.subComments[0])">回复</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--这里直接就给当前评论加上一个showMore属性，用来标记是否展示更多评论-->
                                     <span class="sub-see-more" @click="item.showMore=true">点击查看更多({{item.subComments.length-1}})</span>
-
-
                                 </div>
 
+                                <!--有一条以上，并点击了展开按钮，就显示全部-->
                                 <div v-if="item.subComments.length>1 && item.showMore">
                                     <div class="subcomment" v-for="subitem in item.subComments" :key="subitem._id">
                                         <!--评论人头像-->
@@ -195,6 +236,10 @@
                                                 {{subitem.beNickname? '回复 '+subitem.beNickname+':':'' }}
                                                 {{subitem.content}}
                                             </p>
+                                            <!--回复评论的按钮-->
+                                            <div class="comment-btn">
+                                                <span  @click="openCommentPanel(true,subitem)">回复</span>
+                                            </div>
                                         </div>
 
 
@@ -222,12 +267,12 @@
 
         <!--底部工具栏-->
         <div class="footerTool">
-
-            <span class="commentText left">
-                <i class="iconfont icon-pinglun"></i>
-                写评论
-            </span>
-
+            <!--
+               <span class="commentText left">
+                    <i class="iconfont icon-pinglun"></i>
+                    写评论
+                </span>
+            -->
             <div class="right">
 
                 <span class="dianzan btn" @click="thumbUp">
@@ -296,6 +341,31 @@
 
 
         </nut-popup>
+
+        <!--弹出层-评论框-->
+        <nut-popup position="top"
+                   v-model="showCommentPanel"
+                   >
+
+            <!--评论填写框-->
+            <nut-textbox
+                    class="comment-input"
+                    v-model="commentStr"
+                    :place-text="commentPlaceText"
+                    :max-num="300"
+                    :txt-area-h="80"
+            ></nut-textbox>
+            <nut-button
+                    @click="submitComment"
+                    class="comment-submit-btn"
+                    block
+            >
+                提交
+            </nut-button>
+
+
+
+        </nut-popup>
     </div>
 
 </template>
@@ -330,6 +400,11 @@
                 showCollectList:false,//是否展示收藏夹列表
                 collectList:[],//收藏夹列表
                 currentPage: 1, //收藏夹列表当前所在页码
+                showCommentPanel:false,//是否展示评论弹窗
+                commentStr:"",//评论内容
+                isSubComment:false,//是否是回复评论-用于评论弹窗提交
+                commentPlaceText:'说说你的想法吧',//评论回复框中的提示文字
+                subCommentInfo:{},//将要回复的评论的相关信息
             }
         },
         mounted() {
@@ -592,6 +667,93 @@
              */
             getArticleOnPcUrl(){
                 return `https://www.sunofbeach.net/a/${this.id}`
+            },
+
+            /**
+             * 提交评论
+             */
+            async submitComment(){
+
+                if (this.isSubComment){
+                    //回复评论
+                    let data = {
+                        articleId: this.id,
+                        parentId: this.subCommentInfo.parentId==="0"?this.subCommentInfo._id:this.subCommentInfo.parentId,
+                        beUid: this.subCommentInfo.yourUid || this.subCommentInfo.userId,
+                        beNickname: this.subCommentInfo.yourNickname || this.subCommentInfo.nickname,
+                        content: this.commentStr
+                    }
+
+                    console.log( this.subCommentInfo)
+                    console.log(data)
+
+                    let result = await api.addArticleSubComment(data)
+                    if (result.code===10000){
+                        this.$notify.success(result.message)
+
+                        //清空评论框
+                        this.commentStr=''
+                        //关闭弹窗
+                        this.showCommentPanel=false
+
+                        //获取评论列表
+                        this.getCommentList()
+
+                    }else {
+                        this.$notify.warn(result.message)
+                    }
+                }else {
+                    //给文章评论
+                    let data = {
+                        parentId: '0',
+                        articleId: this.id,
+                        commentContent: this.commentStr,
+                    }
+
+                    let result = await api.addArticleComment(data)
+                    if (result.code===10000){
+                        this.$notify.success(result.message)
+
+                        //清空评论框
+                        this.commentStr=''
+                        //关闭弹窗
+                        this.showCommentPanel=false
+                        //获取评论列表
+                        this.getCommentList()
+
+
+                    }else {
+                        this.$notify.warn(result.message)
+                    }
+                }
+
+
+            },
+
+            /**
+             * 展示评论填写框
+             */
+            openCommentPanel(isSubComment,commentObj){
+                if (!this.isLogin(this)){
+                    return
+                }
+                //清空旧数据
+                this.commentStr = ""
+
+                //更新标记，回复对象不同，接口不一致
+                this.isSubComment = isSubComment
+                this.subCommentInfo = commentObj
+
+                if (this.isSubComment){
+                    //回复评论时，需要携带一些参数 A lonely cat  回复 @ccTyL
+                    let beReplayUserName = commentObj.yourNickname || commentObj.nickname
+                    this.commentPlaceText=`回复 @${beReplayUserName}`
+                }else {
+                    this.commentPlaceText="说说你的看法吧！"
+                }
+
+                this.showCommentPanel=true
+
             },
 
         }
@@ -1004,6 +1166,23 @@
     }
     .collected{
         color: #0084ff;
+    }
+
+
+    /*评论填写框相关*/
+    .comment-input{
+        margin-top: 10px;
+        height: 100px;
+    }
+
+    .comment-btn{
+        margin-top: 2px;
+    }
+    .reviewRight .comment-btn span{
+
+        float: right;
+        color: #f15731;
+        font-size: 13px;
     }
 
 </style>

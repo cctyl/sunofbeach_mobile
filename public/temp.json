@@ -1,44 +1,38 @@
 {
-  "success": true,
-  "code": 10000,
-  "message": "查询成功.",
-  "data": {
-    "content": [
-      {
-        "_id": "898237353485664256",
-        "userId": "1314408005793603584",
-        "userName": null,
-        "avatar": null,
-        "cover": "https://images.sunofbeaches.com/content/2021_10_09/896340281694093312.png",
-        "name": "11",
-        "permission": "0",
-        "description": "111",
-        "createTime": "2021-10-14 15:54",
-        "followCount": 0,
-        "favoriteCount": 1
-      }
-    ],
-    "pageable": {
-      "sort": {
-        "sorted": true,
-        "unsorted": false
-      },
-      "pageSize": 10,
-      "pageNumber": 0,
-      "offset": 0,
-      "paged": true,
-      "unpaged": false
-    },
-    "totalPages": 1,
-    "totalElements": 1,
-    "last": true,
-    "number": 0,
-    "size": 10,
-    "numberOfElements": 1,
-    "sort": {
-      "sorted": true,
-      "unsorted": false
-    },
-    "first": true
+  "serialVersionUID": 1,
+  "id": 1,
+  "name": "demoData",
+  "treeOrder": 1.0,
+  "type": "FOLDER",
+  "rootId": 1,
+  "likeNum": 1,
+  "favoriteNum": 1,
+  "viewNum": 1,
+  "searchViewNum": 1,
+  "commentNum": 1,
+  "lvYueId": 1,
+  "parent": {
+    "serialVersionUID": 1,
+    "id": 1,
+    "name": "demoData",
+    "treeOrder": 1.0,
+    "type": "FOLDER",
+    "rootId": 1,
+    "likeNum": 1,
+    "favoriteNum": 1,
+    "viewNum": 1,
+    "searchViewNum": 1,
+    "commentNum": 1,
+    "lvYueId": 1,
+    "hitChildren": true,
+    "hitParent": true
+  },
+  "hitChildren": true,
+  "hitParent": true,
+  "menuDetails": {
+    "groupKey": "demoData",
+    "groupCode": "demoData",
+    "showGroupKey": true,
+    "showOrder": true
   }
 }

@@ -447,4 +447,19 @@ export default {
     cancelCollect(favoriteId) {
         return ajax(`/ct/favorite/${favoriteId}`, null, 'DELETE')
     },
+    /**
+     * 对文章评论
+     * @param data
+     */
+    addArticleComment(data) {
+        return ajax(`/ct/article/comment`, data, 'POST')
+    },
+    /**
+     * 对文章下的评论进行回复
+     * @param data
+     * @returns {Promise | Promise<unknown>}
+     */
+    addArticleSubComment(data) {
+        return ajax(`/ct/article/sub-comment`, data, 'POST')
+    }
 }
