@@ -15,4 +15,6 @@ export default {
         //修改state
         state.userInfo=value
     },
+
+
 }

@@ -247,7 +247,7 @@
 
                 <span class="share btn">
                     <i class="iconfont tubiao icon-fenxiang1"></i>
-                    <span class="desc">分享</span>
+                    <span class="desc" @click="shareArticle">分享</span>
                 </span>
             </div>
 
@@ -286,7 +286,6 @@
                             <span class="collect-btn collected" v-if="isCollect" @click="cancelCollect">取消收藏</span>
                             <span class="collect-btn" @click="collectArticle(item._id)" v-else>收藏</span>
 
-
                         </div>
 
 
@@ -307,6 +306,8 @@
     import 'github-markdown-css'
     import 'highlight.js/styles/default.css'
     import hljs from 'highlight.js'
+    import easyCopy from "../../util/easyCopy";
+
 
     const highlightCode = () => {
         const preEl = document.querySelectorAll('pre')
@@ -329,9 +330,6 @@
                 showCollectList:false,//是否展示收藏夹列表
                 collectList:[],//收藏夹列表
                 currentPage: 1, //收藏夹列表当前所在页码
-
-
-
             }
         },
         mounted() {
@@ -344,17 +342,20 @@
             //获取文章数据
             this.getArticleDetail()
 
-
             //获取点赞数据
             this.checkThumbUp()
 
-            //判断是否已收藏
-            this.checkCollected()
+            //有用户数据才检测
+            if (this.$store.userInfo){
+
+                //判断是否已收藏
+                this.checkCollected()
+            }
+
+
 
             //获取评论数据
             this.getCommentList()
-
-
 
             //高亮语法
             highlightCode();
@@ -363,7 +364,6 @@
         },
         updated() {
             highlightCode();
-
         },
         methods: {
 
@@ -417,6 +417,12 @@
              */
             async thumbUp(){
 
+                //先判断是否登录
+                if (!this.isLogin(this)){
+                    return
+                }
+
+
                 if (this.isThumbUp){
                     //如果已经点赞，不做操作
                     return ;
@@ -466,18 +472,20 @@
              * 展示收藏夹列表
              */
             openCollectList(){
+                //先判断是否登录
+                if (!this.isLogin(this)){
+                    return
+                }
                 this.showCollectList=true
                 this.getCollectList(this.currentPage,false)
             },
-
-
-
-
 
             /**
              * 获取收藏夹列表
              */
             async getCollectList(page,isMerge){
+
+
 
                 let result = await api.getCollectList(page)
                 let list = result.data.content
@@ -526,7 +534,7 @@
                 let data = {
                     collectionId:collectionId,
                     title:this.articleInfo.title,
-                    url:`https://www.sunofbeach.net/a/${this.id}`,
+                    url: this.getArticleOnPcUrl(),
                     type:"0"
                 }
 
@@ -558,12 +566,36 @@
                     //成功之后要收起收藏夹列表
                     this.showCollectList=false
 
+                    //更新图标
+                    this.isCollect = false
                 }else {
                     this.$notify.danger(result.message)
                 }
             },
 
+            /**
+             * 分享文章。将主站的文章链接拷贝到内存中
+             */
+            shareArticle(){
+                //生成链接
+                let url = this.getArticleOnPcUrl()
+
+                //复制到剪切板
+                easyCopy(url)
+
+                //提示
+                this.$notify.success("链接已复制到剪切板，快去分享把！")
+            },
+
+            /**
+             * 获取文章的主站链接
+             */
+            getArticleOnPcUrl(){
+                return `https://www.sunofbeach.net/a/${this.id}`
+            },
+
         }
+
     }
 </script>
 

@@ -2,7 +2,6 @@ import Vue from 'vue'  //引入vue本身
 import App from './App.vue' //引入根组件
 import router from './router'
 import store from './store'
-
 import axios from "axios";
 
 axios.defaults.withCredentials = true; //配置为true
@@ -19,7 +18,6 @@ axios.interceptors.request.use(function (request) {
 
     return request;
 });
-
 
 //响应拦截器
 axios.interceptors.response.use(
@@ -42,14 +40,18 @@ Vue.config.productionTip = false
 //注册nutui
 import NutUI from '@nutui/nutui';
 import '@nutui/nutui/dist/nutui.css';
-
 NutUI.install(Vue);
 
 
 //全局设置语言环境
 import moment from "moment";
-
 moment.locale('zh-cn');
+
+
+//导入自定义插件
+import moreFunction from "./plugins/moreFunction";
+//应用插件，注意必须在vm对象创建之前应用
+Vue.use(moreFunction)
 
 new Vue({
     render: h => h(App),
