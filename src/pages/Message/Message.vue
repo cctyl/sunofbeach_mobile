@@ -3,8 +3,7 @@
     <nut-tab :is-scroll="true" position-nav="left" :wrapper-height="tabHeight" :def-index="currentTab"
              @tab-switch="tabSwitch"
     >
-        <nut-tab-panel tab-title="文章">
-
+        <nut-tab-panel tab-title="回复我的">
             <nut-scroller
                     :type="'vertical'"
                     :is-un-more="isUnMore"
@@ -15,42 +14,35 @@
                     :init-data="msgList"
 
             >
-
-
                 <div slot="list">
-                    <li class="mli" v-for="article in msgList" :key="article._id">
+                    <li class="mli" v-for="comment in msgList" :key="comment._id">
 
                         <div class="mItem">
                             <div class="mleft">
 
-                                <img :src="article.avatar"
+                                <img :src="comment.avatar"
                                      alt="">
 
                             </div>
 
                             <div class="mRight">
-                                <div class="nickname">{{article.nickname}}</div>
-                                <div class="content">{{article.content}}</div>
-                                <div class="title">{{article.title}}</div>
-
-
+                                <div class="nickname">{{comment.nickname}}</div>
+                                <div class="content">{{comment.content}}</div>
+                                <div class="title">点击查看详情</div>
                             </div>
                         </div>
 
 
                         <div class="mBottom">
-                            <div class="mType">@我</div>
-                            <span class="readStatus" :class="article.hasRead==1?'read':''">{{article.hasRead==1?'已阅':'未读'}}</span>
-                            <div class="mTime">{{article.createTime}}</div>
+                            <span class="readStatus" :class="comment.hasRead==1?'read':''">{{comment.hasRead==1?'已阅':'未读'}}</span>
+                            <div class="mTime">{{comment.publishTime}}</div>
                         </div>
                     </li>
-
                 </div>
             </nut-scroller>
-
-
         </nut-tab-panel>
-        <nut-tab-panel tab-title="点赞">
+
+        <nut-tab-panel tab-title="给朕点赞">
 
             <nut-scroller
                     :type="'vertical'"
@@ -62,7 +54,6 @@
                     :init-data="msgList"
 
             >
-
 
                 <div slot="list">
                     <li class="mli" v-for="thumbItem in msgList" :key="thumbItem._id">
@@ -84,6 +75,10 @@
                             </div>
                         </div>
 
+                        <div class="mBottom">
+                            <span class="readStatus" :class="thumbItem.hasRead==1?'read':''">{{thumbItem.hasRead==1?'已阅':'未读'}}</span>
+                            <div class="mTime">{{thumbItem.thumbTime}}</div>
+                        </div>
 
                     </li>
 
@@ -91,10 +86,179 @@
             </nut-scroller>
 
         </nut-tab-panel>
-        <nut-tab-panel tab-title="@朕">页签3</nut-tab-panel>
-        <nut-tab-panel tab-title="动态">页签4</nut-tab-panel>
-        <nut-tab-panel tab-title="问题">页签5</nut-tab-panel>
-        <nut-tab-panel tab-title="通知">页签6</nut-tab-panel>
+
+        <nut-tab-panel tab-title="文章评论">
+
+            <nut-scroller
+                    type="vertical"
+                    :is-un-more="isUnMore"
+                    :is-loading="isLoading"
+                    @pulldown="pulldown"
+                    unloadMoreTxt="到底了"
+                    @loadMore="loadMoreVert"
+                    :init-data="msgList"
+
+            >
+
+                <div slot="list">
+                    <li class="mli" v-for="article in msgList" :key="article._id">
+
+                        <div class="mItem">
+                            <div class="mleft">
+
+                                <img :src="article.avatar"
+                                     alt="">
+
+                            </div>
+
+                            <div class="mRight">
+                                <div class="nickname">{{article.nickname}}</div>
+                                <div class="content">{{article.content}}</div>
+                                <div class="title">{{article.title}}</div>
+                            </div>
+                        </div>
+
+                        <div class="mBottom">
+                            <span class="readStatus" :class="article.hasRead==1?'read':''">{{article.hasRead==1?'已阅':'未读'}}</span>
+                            <div class="mTime">{{article.createTime}}</div>
+                        </div>
+                    </li>
+                </div>
+            </nut-scroller>
+
+
+        </nut-tab-panel>
+
+        <nut-tab-panel tab-title="动态评论">
+            <nut-scroller
+                    :type="'vertical'"
+                    :is-un-more="isUnMore"
+                    :is-loading="isLoading"
+                    @pulldown="pulldown"
+                    unloadMoreTxt="到底了"
+                    @loadMore="loadMoreVert"
+                    :init-data="msgList"
+
+            >
+
+                <div slot="list">
+                    <li class="mli" v-for="momentItem in msgList" :key="momentItem._id">
+
+                        <div class="mItem">
+                            <div class="mleft">
+
+                                <img :src="momentItem.avatar"
+                                     alt="">
+
+                            </div>
+
+                            <div class="mRight">
+                                <div class="nickname">{{momentItem.nickname}}</div>
+                                <span class="content">{{momentItem.content}}</span>
+
+                                <div class="title">
+                                    <span class="title-desc">评论了我的动态：</span>
+                                    {{momentItem.title}}</div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="mBottom">
+                            <span class="readStatus" :class="momentItem.hasRead==1?'read':''">{{momentItem.hasRead==1?'已阅':'未读'}}</span>
+                            <div class="mTime">{{momentItem.createTime}}</div>
+                        </div>
+
+                    </li>
+
+                </div>
+            </nut-scroller>
+        </nut-tab-panel>
+
+        <nut-tab-panel tab-title="问题回答">
+            <nut-scroller
+                    :type="'vertical'"
+                    :is-un-more="isUnMore"
+                    :is-loading="isLoading"
+                    @pulldown="pulldown"
+                    unloadMoreTxt="到底了"
+                    @loadMore="loadMoreVert"
+                    :init-data="msgList"
+
+            >
+
+                <div slot="list">
+                    <li class="mli" v-for="wendaItem in msgList" :key="wendaItem._id">
+
+                        <div class="mItem">
+                            <div class="mleft">
+
+                                <img :src="wendaItem.avatar"
+                                     alt="">
+
+                            </div>
+
+                            <div class="mRight">
+                                <div class="nickname">{{wendaItem.nickname}}</div>
+
+                                <div class="title">
+                                    <span class="title-desc">回答了朕的提问：</span>
+                                    {{wendaItem.title}}
+                                    <span class="title-desc">去看看问题解决了吗？</span>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="mBottom">
+                            <span class="readStatus" :class="wendaItem.hasRead==1?'read':''">{{wendaItem.hasRead==1?'已阅':'未读'}}</span>
+                            <div class="mTime">{{wendaItem.createTime}}</div>
+                        </div>
+
+                    </li>
+
+                </div>
+            </nut-scroller>
+        </nut-tab-panel>
+
+        <nut-tab-panel tab-title="系统通知">
+            <nut-scroller
+                    :type="'vertical'"
+                    :is-un-more="isUnMore"
+                    :is-loading="isLoading"
+                    @pulldown="pulldown"
+                    unloadMoreTxt="到底了"
+                    @loadMore="loadMoreVert"
+                    :init-data="msgList"
+
+            >
+
+                <div slot="list">
+                    <li class="mli" v-for="sysItem in msgList" :key="sysItem._id">
+
+                        <div class="mItem">
+
+                            <div class="mRight">
+                                <div>{{sysItem.title}}</div>
+
+                                <!--系统消息是a标签，这里禁止点击，后续如果做了个人中心则将此处进行跳转-->
+                                <div class="title" v-html="sysItem.content" @click.prevent="">
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="mBottom">
+                            <div class="mTime">{{sysItem.publishTime}}</div>
+                        </div>
+
+                    </li>
+
+                </div>
+            </nut-scroller>
+        </nut-tab-panel>
     </nut-tab>
 
 
@@ -136,81 +300,72 @@
              *
              */
             async getMsgData(page = 1, isMerge = false) {
+                //请求结果
+                let result = {}
 
-
-                //不同的tab访问的api是不一样的，所以在这里先判断一下是哪个tab，再做额外处理
+                //不同的tab访问的api是不一样的，根据tab调用不同的接口即可
                 switch (this.currentTab) {
-                    //这里加大括号是为了限制变量的作用域，否则第二个case会受到第一个case的变量名的影响
-                    case 0: {
-                        //文章评论
-                        let result = await api.getArticleMessage(page)
 
-                        //取出评论列表
-                        let msgList = result.data.content
-
-                        //取出总页数
-                        this.totalPages = result.data.totalPages
-
-                        if (isMerge) {
-                            //合并之前和现在的数据
-                            //合并之前，涉及到一个去重问题
-                            let obj = {}
-                            for (let i = 0; i < this.msgList.length; i++) {
-                                obj[this.msgList[i]._id] = this.msgList[i]
-                            }
-                            for (let i = 0; i < msgList.length; i++) {
-                                //如果拿着你的id去 obj 里找，找不到，说明原本的 this.msgList没有这个对象
-
-                                if (!obj[msgList[i].id]) {
-                                    this.msgList.push(msgList[i])
-                                } else {
-                                    // console.log('不会被添加')
-                                }
-                            }
-                        } else {
-                            //更新数据
-                            this.msgList = msgList
-                        }
-
-                        break;
+                    case 0:{
+                        //回复我的
+                        result = await api.getAtMessage(page)
+                        break
                     }
                     case 1:{
                         //点赞数据
 
-                        let result = await api.getThumbMessage(page)
-                        console.log(result)
+                        result = await api.getThumbMessage(page)
                         break
                     }
-                    case 2:{
-                        //@我的
-                        let result = await api.getAtMessage(page)
-                        console.log(result)
-                        break
+                    case 2: {
+                        //文章评论
+                        result = await api.getArticleMessage(page)
+                        break;
                     }
-
                     case 3:{
                         //动态评论
-                        let result = await api.getMomentMessage(page)
-                        console.log(result)
+                        result = await api.getMomentMessage(page)
                         break
                     }
-
                     case 4:{
-                        //问题
-                        let result = await api.getWendaMessage(page)
-                        console.log(result)
+                        //问题回答
+                        result = await api.getWendaMessage(page)
                         break
                     }
-
                     case 5:{
-                        //通知
-
-                        let result = await api.getSystemMessage(page)
-                        console.log(result)
+                        //系统通知
+                        result = await api.getSystemMessage(page)
                         break
                     }
 
 
+                }
+                console.log(result)
+                //取出评论列表
+                let msgList = result.data.content
+
+                //取出总页数
+                this.totalPages = result.data.totalPages
+
+                if (isMerge) {
+                    //合并之前和现在的数据
+                    //合并之前，涉及到一个去重问题
+                    let obj = {}
+                    for (let i = 0; i < this.msgList.length; i++) {
+                        obj[this.msgList[i]._id] = this.msgList[i]
+                    }
+                    for (let i = 0; i < msgList.length; i++) {
+                        //如果拿着你的id去 obj 里找，找不到，说明原本的 this.msgList没有这个对象
+
+                        if (!obj[msgList[i].id]) {
+                            this.msgList.push(msgList[i])
+                        } else {
+                            // console.log('不会被添加')
+                        }
+                    }
+                } else {
+                    //更新数据
+                    this.msgList = msgList
                 }
 
 
@@ -225,14 +380,10 @@
                 this.isLoading = true
 
                 //根据当前所在tab刷新数据
-                switch (this.currentTab) {
-                    case 0:
-                        //刷新@我板块
-                        this.getMsgData()
-                        break;
-                }
-                clearTimeout(this.timer)
+                this.getMsgData()
 
+                //函数节流
+                clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
                     this.isLoading = false
                 }, 300)
@@ -255,12 +406,7 @@
 
 
                 //根据当前所在tab刷新数据
-                switch (this.currentTab) {
-                    case 0:
-                        //刷新@我板块下一页
-                        this.getMsgData(++this.currentPage, true)
-                        break;
-                }
+                this.getMsgData(++this.currentPage, true)
 
                 clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
@@ -297,7 +443,7 @@
 
 
     .mli {
-
+        width: 271px;
         margin-top: 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid #ccc;
@@ -339,6 +485,13 @@
         margin-top: 10px;
         font-size: 14px;
         color: #406599;
+        line-height: 18px;
+    }
+    .mRight .title .title-desc{
+        color: #000;
+    }
+    .mRight .thumbUpInfo{
+        font-size: 16px;
     }
 
 
@@ -391,9 +544,8 @@
 
     }
 
-    .thumbUpInfo{
-        font-size: 14px;
-    }
+
+
 
 
 </style>

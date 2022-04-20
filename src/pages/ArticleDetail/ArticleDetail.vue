@@ -363,8 +363,6 @@
                 提交
             </nut-button>
 
-
-
         </nut-popup>
     </div>
 
@@ -753,7 +751,6 @@
                 }
 
                 this.showCommentPanel=true
-
             },
 
         }
