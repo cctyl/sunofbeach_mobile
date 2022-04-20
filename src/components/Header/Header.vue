@@ -1,13 +1,100 @@
 <template>
     <div class="container">
 
+
         <!--logo-->
         <div class="logo" @click="toHome">
             SOB
         </div>
 
+        <!--侧边栏-->
+        <div class="side">
+            <div class="nav-show-btn" @click="setNavListShow(!navListShow)">
+                <span class="nav-title">首页</span>
+                <i class="iconfont"
+                   :class="navListShow?'icon-shangzhankai':'icon-xiazhankai'"
+                />
+            </div>
+
+            <ul class="nav-list" v-show="navListShow">
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/home' }"
+                    >首页</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/moment' }"
+                    >摸鱼</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/wenda' }"
+                    >问答</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >分享</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >学院</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >VIP</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >仓库</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >APIs</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >商场</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >笔记</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/xxx' }"
+                    >交互</a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                            :class="{'nav-active': $route.path==='/ucenter' }"
+                    >
+                        个人中心
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
         <!--搜索框-->
-        <div class="search">
+        <div class="search" @click="closeNavMsg()">
             <nut-searchbar
                     v-model="searchStr"
                     :hasSearchButton="true"
@@ -37,7 +124,7 @@
 
             </nut-badge>
 
-            <ul class="message-box" v-if="msgBoxShow">
+            <ul class="message-box" v-if="msgBoxShow" >
 
 
                 <nut-badge
@@ -98,23 +185,19 @@
 
 
                 <li class="mitem" @click.stop="readAll">全部已读 <i class="iconfont icon-qingchu"></i></li>
-                <li class="mitem" @click.stop="msgBoxShow=false">收起列表 <i
-                        class="iconfont icon-anniu_jiantoushouqi_o"></i></li>
+                <!--<li class="mitem" @click.stop="setMsgBoxShow(false)">收起列表 <i
+                        class="iconfont icon-anniu_jiantoushouqi_o"></i></li>-->
 
             </ul>
 
         </div>
 
 
-
-
-
-
     </div>
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState,mapActions} from 'vuex'
     import api from "../../api/index"
 
     export default {
@@ -132,11 +215,11 @@
                     thumbUpMsgCount: 0,
                     wendaMsgCount: 0
                 },
-                msgBoxShow: false,//决定是否展示消息盒子
+
             }
         },
         computed: {
-            ...mapState(['userInfo']),
+            ...mapState(['userInfo','msgBoxShow','navListShow']),
 
             /**
              *计算是否有新消息
@@ -154,15 +237,18 @@
 
         mounted() {
             this.getMsgCount()
-
         },
 
         methods: {
+
+            ...mapActions(['setMsgBoxShow','setNavListShow']),
 
             /**
              * 跳转到首页
              */
             toHome() {
+                //收起导航栏和消息栏
+                this.closeNavMsg()
 
                 if (this.$route.path == '/home' || this.$route.path == '/') {
                     console.log('在首页，不跳转')
@@ -186,8 +272,7 @@
              * 展示或关闭消息盒子
              */
             showMsgBox() {
-                console.log("showMsgBox")
-                this.msgBoxShow = !this.msgBoxShow
+               this.setMsgBoxShow(true)
             },
 
 
@@ -234,12 +319,13 @@
              */
             toMessage(type) {
 
-                this.msgBoxShow = false
+                //关闭消息下拉列表
+                this.closeNavMsg()
+
                 this.$router.push({
                     path: '/message',
                     query: {type}
                 })
-                // console.log("tomessage："+type)
             },
 
         }
@@ -253,6 +339,7 @@
         padding: 10px 5px;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
     }
 
 
@@ -262,14 +349,18 @@
         line-height: 36px;
         font-size: 19px;
         color: #37f;
+        margin: 0px 7px;
     }
 
     .loginText {
         height: 26px;
         line-height: 36px;
-        margin-left: 12px;
-        width: 40px;
 
+
+    }
+
+    .loginText, .userinfo {
+        padding: 0 10px;
     }
 
     .icon-more {
@@ -283,22 +374,20 @@
     .user-avatar {
         width: 25px;
         height: 25px;
-        margin-left: 12px;
         margin-top: 5px;
 
     }
 
     .userinfo {
-        margin-left: 5px;
+        margin-left: 7px;
     }
 
     .message-box {
-        border: 1px solid #ccc;
         margin-top: 8px;
         padding: 20px 20px 0px 10px;
         z-index: 2;
         background-color: #fff;
-        width: 110px;
+        width: 6rem;
 
         position: absolute;
         right: 0;
@@ -308,18 +397,69 @@
         justify-content: space-around;
         align-items: center;
 
+
+        box-shadow: 0 8px 24px rgb(81 87 103 / 16%);
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        font-size: 14px;
     }
 
     .message-box .mitem {
         color: #515767;
-        height: 40px;
-        margin-bottom: 10px;
+        height: 3rem;
+
     }
 
-    .search{
-        width: 230px;
+    .search {
+        width: 220px;
     }
 
+    .side {
+        padding: 0 4px;
+        align-self: center;
+        white-space: nowrap;
 
 
+    }
+
+    .side .nav-title {
+        color: #37f;
+        font-size: 1rem;
+    }
+
+    .side .nav-list {
+        z-index: 2;
+
+        position: absolute;
+        left: 0;
+
+        background-color: #fff;
+        box-shadow: 0 8px 24px rgb(81 87 103 / 16%);
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        width: 9.2rem;
+        top: 52px;
+
+
+    }
+    .side .nav-list,.show{
+        display: block;
+    }
+    .side .nav-list .nav-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 3rem;
+
+    }
+
+    .side .nav-list .nav-item a {
+        color: #86909c;
+        font-size: 14px;
+    }
+
+    .side .nav-list .nav-item .nav-active {
+        color: #37f;
+    }
 </style>

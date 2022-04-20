@@ -44,4 +44,28 @@ export default {
 
     },
 
+    /**
+     * 设置msgBoxShow属性
+     * @param context
+     * @param value
+     */
+    setMsgBoxShow(context, value) {
+        //commit
+        context.commit('SET_MSG_BOX_SHOW', value)
+    },
+
+    /**
+     * 设置navListShow属性
+     * @param context
+     * @param value
+     */
+    setNavListShow(context, value) {
+        //commit
+        context.commit('SET_NAV_LIST_SHOW', value)
+    },
+
+
+
+
+
 }

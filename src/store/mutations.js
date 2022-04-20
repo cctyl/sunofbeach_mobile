@@ -16,5 +16,14 @@ export default {
         state.userInfo=value
     },
 
+    SET_MSG_BOX_SHOW(state,value){
+        //修改state
+        state.msgBoxShow=value
+    },
+
+    SET_NAV_LIST_SHOW(state,value){
+        //修改state
+        state.navListShow=value
+    },
 
 }

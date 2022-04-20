@@ -491,7 +491,7 @@
             async thumbUp(){
 
                 //先判断是否登录
-                if (!this.isLogin(this)){
+                if (!this.isLogin()){
                     return
                 }
 
@@ -546,7 +546,7 @@
              */
             openCollectList(){
                 //先判断是否登录
-                if (!this.isLogin(this)){
+                if (!this.isLogin()){
                     return
                 }
                 this.showCollectList=true
@@ -732,7 +732,7 @@
              * 展示评论填写框
              */
             openCommentPanel(isSubComment,commentObj){
-                if (!this.isLogin(this)){
+                if (!this.isLogin()){
                     return
                 }
                 //清空旧数据

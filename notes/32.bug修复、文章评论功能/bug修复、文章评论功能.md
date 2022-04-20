@@ -104,7 +104,7 @@
  * 展示评论填写框
  */
 openCommentPanel(isSubComment){
-    if (!this.isLogin(this)){
+    if (!this.isLogin()){
         return
     }
     //清空旧数据
@@ -162,7 +162,7 @@ if (result.code===10000){
  * 展示评论填写框
  */
 openCommentPanel(isSubComment,commentObj){
-    if (!this.isLogin(this)){
+    if (!this.isLogin()){
         return
     }
     //清空旧数据
