@@ -281,7 +281,7 @@
             }
         },
         created() {
-            this.currentTab = this.$route.query.type * 1
+            this.currentTab = this.$route.query.type?this.$route.query.type* 1:0
             //设置整个tab的高度
             this.tabHeight = document.body.scrollHeight * 0.89
         },

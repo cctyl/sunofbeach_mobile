@@ -10,19 +10,21 @@
         <!--侧边栏-->
         <div class="side">
             <div class="nav-show-btn" @click="setNavListShow(!navListShow)">
-                <span class="nav-title">首页</span>
+                <span class="nav-title">{{navText}}</span>
                 <i class="iconfont"
                    :class="navListShow?'icon-shangzhankai':'icon-xiazhankai'"
                 />
             </div>
 
             <ul class="nav-list" v-show="navListShow">
-                <li class="nav-item">
-                    <a
-                            :class="{'nav-active': $route.path==='/home' }"
+                <li class="nav-item" @click="toPage('/home','首页')">
+                    <a :class="{'nav-active': $route.path==='/home' }"
                     >首页</a>
                 </li>
-                <li class="nav-item">
+
+
+
+                <li class="nav-item"  @click="toPage('/moment','摸鱼')">
                     <a
                             :class="{'nav-active': $route.path==='/moment' }"
                     >摸鱼</a>
@@ -184,9 +186,9 @@
                 </nut-badge>
 
 
-                <li class="mitem" @click.stop="readAll">全部已读 <i class="iconfont icon-qingchu"></i></li>
-                <!--<li class="mitem" @click.stop="setMsgBoxShow(false)">收起列表 <i
-                        class="iconfont icon-anniu_jiantoushouqi_o"></i></li>-->
+                <li class="mitem" @click.stop="readAll">全部已读
+                    <!--<i class="iconfont icon-qingchu"></i>-->
+                </li>
 
             </ul>
 
@@ -204,7 +206,7 @@
         name: "Header.vue",
         data() {
             return {
-                searchStr: '',
+                searchStr: '',//搜索框内容
                 //存储消息数
                 msgData: {
                     articleMsgCount: 0,
@@ -215,6 +217,8 @@
                     thumbUpMsgCount: 0,
                     wendaMsgCount: 0
                 },
+
+                navText:'首页',//导航栏按钮文字
 
             }
         },
@@ -267,6 +271,22 @@
                 this.$router.push("/login")
             },
 
+            /**
+             * 点击导航栏跳转到指定页面
+             * @param url 页面路径
+             * @param navText 导航按钮文字
+             */
+            toPage(url,navText){
+                //已在此页面，不跳转
+                this.setNavListShow(false)
+                if (this.$route.path === url){
+                    return
+                }
+                this.navText = navText
+                this.$router.push(url)
+
+
+            },
 
             /**
              * 展示或关闭消息盒子
@@ -292,8 +312,8 @@
              * 将消息全部已读
              */
             async readAll() {
+                this.setMsgBoxShow(false)
                 let result = await api.readAllMsg()
-
 
                 if (result.success === true) {
                     this.$notify.success('已读成功！');
@@ -384,7 +404,7 @@
 
     .message-box {
         margin-top: 8px;
-        padding: 20px 20px 0px 10px;
+        padding: 5px 20px 0px 10px;
         z-index: 2;
         background-color: #fff;
         width: 6rem;
@@ -407,7 +427,7 @@
     .message-box .mitem {
         color: #515767;
         height: 3rem;
-
+        line-height: 3rem;
     }
 
     .search {

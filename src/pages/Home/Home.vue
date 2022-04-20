@@ -224,8 +224,11 @@
                 </nut-scroller>
 
 
+                <div class="line"></div>
+
                 <!--轮播图，仅为推荐页面时使用-->
                 <nut-swiper
+                        class="img-swiper"
                         v-show="currentTag==-1"
                         :autoPlay="2000"
                         direction="horizontal"
@@ -540,7 +543,6 @@
     /*---------------标签栏 start---------------*/
     .tagScroll {
         white-space: nowrap;
-        background-color: #E5E9EC;
         height: 40px;
     }
 
@@ -554,12 +556,15 @@
         font-weight: bold;
         font-size: 15px;
         margin: 0 10px;
+        color: #8a919f;
     }
 
     /*当前被选中的tag*/
     .tagCurrent {
-        border-bottom: 2px solid #66ccff;
+        border-bottom: 2px solid #1e80ff;
         margin-bottom: 1px;
+        color: #1e80ff;
+
     }
 
     /*---------------标签栏 end---------------*/
@@ -571,6 +576,11 @@
         width: 100%;
     }
 
+    .line {
+        background-color: #f4f5f5;
+        width: 100%;
+        height: 10px;
+    }
     .swiperImg {
         width: 100%;
         height: 168px;

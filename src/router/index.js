@@ -10,6 +10,7 @@ import Home from "../pages/Home/Home";
 import ArticleDetail from "../pages/ArticleDetail/ArticleDetail";
 import Login from "../pages/Login/Login";
 import Message from "../pages/Message/Message";
+import Moment from "../pages/Moment/Moment";
 
 const router = new VueRouter({
     routes: [
@@ -42,7 +43,14 @@ const router = new VueRouter({
             meta:{
                 showHeader:true
             }
-        }
+        },
+        {
+            path:'/moment',
+            component:Moment,
+            meta:{
+                showHeader:true
+            }
+        },
 
 
     ]
