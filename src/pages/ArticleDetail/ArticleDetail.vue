@@ -278,14 +278,14 @@
                 <span class="dianzan btn" @click="thumbUp">
                     <i class="iconfont tubiao  "
                        :class="isThumbUp?'icon-dianzan_kuai':'icon-dianzan'"
-                       :style="isThumbUp?'color: red;':''"
+                       :style="isThumbUp?'color: #007fff;':''"
                     ></i>
                     <span class="desc">{{articleInfo.thumbUp}}</span>
                 </span>
                 <span class="collect btn" @click="openCollectList">
                     <i class="iconfont tubiao "
                        :class="isCollect?'icon-shoucang3':'icon-shoucang2'"
-                       :style="isCollect?'color: #0084ff;':''"
+                       :style="isCollect?'color: #007fff;':''"
                     ></i>
                     <span class="desc">收藏</span>
                 </span>
@@ -343,7 +343,8 @@
         </nut-popup>
 
         <!--弹出层-评论框-->
-        <nut-popup position="top"
+        <nut-popup
+                   position="top"
                    v-model="showCommentPanel"
                    >
 
@@ -356,7 +357,9 @@
                     :txt-area-h="80"
             ></nut-textbox>
             <nut-button
+                    type="light"
                     @click="submitComment"
+                    color="#fff"
                     class="comment-submit-btn"
                     block
             >
@@ -419,12 +422,10 @@
             this.checkThumbUp()
 
             //有用户数据才检测
-            if (this.$store.userInfo){
-
+            if (this.$store.state.userInfo){
                 //判断是否已收藏
                 this.checkCollected()
             }
-
 
 
             //获取评论数据
@@ -814,8 +815,8 @@
 
     .infobox .thumbUp, .viewCount {
         border-radius: 11px;
-        border: 1px solid #fc5531;
-        color: #fc5531;
+        border: 1px solid #007fff;
+        color: #007fff;
         padding: 2px 8px;
     }
 
@@ -846,7 +847,7 @@
     }
 
     .vip {
-        color: #fc5531;
+        color: #007fff;
     }
 
 
@@ -864,9 +865,9 @@
         vertical-align: middle;
         width: 72px;
         height: 32px;
-        border: 1px solid #f15731;
+        border: 1px solid #007fff;
         border-radius: 23px;
-        color: #f15731;
+        color: #007fff;
 
     }
 
@@ -924,11 +925,18 @@
         text-align: center;
         margin-right: 10px;
 
+
     }
 
 
     .footerTool .btn .desc {
         width: 32px;
+        color: #8a93a0;
+    }
+    .nut-button.light{
+        background-color: #1d7dfa!important;
+        border: none;
+        box-shadow: 0 0 8px 4px rgb(56 142 255 / 16%);
     }
 
     .right{
@@ -1012,7 +1020,7 @@
     }
 
     .reviewHeader :nth-child(2) {
-        color: #f15731;
+        color: #007fff;
     }
 
     .reviewItem {
@@ -1178,7 +1186,7 @@
     .reviewRight .comment-btn span{
 
         float: right;
-        color: #f15731;
+        color: #007fff;
         font-size: 13px;
     }
 

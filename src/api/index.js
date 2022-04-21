@@ -242,20 +242,22 @@ export default {
     },
 
     /**
-     * 获取首页摸鱼话题
+     * 获取首页热门摸鱼话题
      * @returns {Promise<unknown>}
      */
-    getMoyuTopic() {
+    getMoyuHotTopic() {
         return ajax(`/ct/moyu/topic/index`)
     },
 
     /**
-     * 获得话题列表
+     * 获取首页全部摸鱼话题
      * @returns {Promise<unknown>}
      */
-    getMoyuTopicList() {
+    getMoyuAllTopic() {
         return ajax(`/ct/moyu/topic`)
     },
+
+
 
     /**
      * 关注话题

@@ -441,7 +441,9 @@
         height: 80%;
     }
 
-
+    .nut-tab-title-leftnav .nut-tab-active a{
+        color: #1d7dfa!important;
+    }
     .mli {
         width: 271px;
         margin-top: 20px;
@@ -548,4 +550,10 @@
 
 
 
+</style>
+
+<style>
+    .nut-tab-title-leftnav .nut-tab-active a{
+        color: #1d7dfa!important;
+    }
 </style>

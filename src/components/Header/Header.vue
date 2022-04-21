@@ -136,7 +136,7 @@
 
 
                 >
-                    <li class="mitem" @click.stop="toMessage(0)">文章回复</li>
+                    <li class="mitem" @click.stop="toMessage(2)">文章回复</li>
                 </nut-badge>
 
                 <nut-badge
@@ -154,7 +154,7 @@
                         top="9px"
                         right="-10px"
                 >
-                    <li class="mitem" @click.stop="toMessage(2)"> @朕消息</li>
+                    <li class="mitem" @click.stop="toMessage(0)"> @朕消息</li>
                 </nut-badge>
                 <nut-badge
                         :value="msgData.momentCommentCount"
@@ -317,8 +317,6 @@
 
                 if (result.success === true) {
                     this.$notify.success('已读成功！');
-                    //关闭消息盒子
-                    this.msgBoxShow = false
 
                     //既然全部已读，那么这个消息盒子中的数据必定是0
                     this.msgData = {

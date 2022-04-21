@@ -277,6 +277,7 @@
 
 
         </nut-scroller>
+
     </div>
 </template>
 
@@ -345,19 +346,20 @@
                 if (isMerge) {
                     //合并之前和现在的数据
                     //合并之前，涉及到一个去重问题
-                    let obj = {}
-                    for (let i = 0; i < this.recommendArticleList.length; i++) {
-                        obj[this.recommendArticleList[i].id] = this.recommendArticleList[i]
-                    }
-                    for (let i = 0; i < result.data.list.length; i++) {
-                        //如果拿着你的id去 obj 里找，找不到，说明原本的 this.recommendArticleList没有这个对象
-
-                        if (!obj[result.data.list[i].id]) {
-                            this.recommendArticleList.push(result.data.list[i])
-                        } else {
-                            // console.log(result.data.list[i].name + '不会被添加')
-                        }
-                    }
+                    // let obj = {}
+                    // for (let i = 0; i < this.recommendArticleList.length; i++) {
+                    //     obj[this.recommendArticleList[i].id] = this.recommendArticleList[i]
+                    // }
+                    // for (let i = 0; i < result.data.list.length; i++) {
+                    //     //如果拿着你的id去 obj 里找，找不到，说明原本的 this.recommendArticleList没有这个对象
+                    //
+                    //     if (!obj[result.data.list[i].id]) {
+                    //         this.recommendArticleList.push(result.data.list[i])
+                    //     } else {
+                    //         // console.log(result.data.list[i].name + '不会被添加')
+                    //     }
+                    // }
+                    this.recommendArticleList = this.removeTargetFromSource(this.recommendArticleList,result.data.list,'id')
                 } else {
                     //更新数据
                     this.recommendArticleList = result.data.list

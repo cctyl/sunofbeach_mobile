@@ -33,5 +33,42 @@ export default {
             this.$store.dispatch('setNavListShow',false)
 
         }
+
+
+        /**
+         * 把sourceArr中包含的targetArr中的数据除去,然后合并
+         * 前提条件：数组中对象必须是同一个格式
+         * @param targetArr 旧数组
+         * @param sourceArr 新获得的数组，里面包含旧数组的部分值
+         * @param uniqueKey 唯一键
+         */
+        Vue.prototype.mergeTargetFromSource = function (targetArr,sourceArr,uniqueKey) {
+
+            //数组不能为空，唯一键也不能为空
+            if (!targetArr||targetArr.length===0
+                ||!sourceArr||sourceArr.length===0
+                || !uniqueKey
+            ){
+                return []
+            }
+
+
+
+
+            let obj = {}
+            for (let i = 0; i < targetArr.length; i++) {
+                obj[ targetArr[i][uniqueKey] ] = targetArr[i]
+            }
+            for (let i = 0; i < sourceArr.length; i++) {
+                //如果拿着你的id去 obj 里找，找不到，说明原本的 this.recommendArticleList没有这个对象
+
+                if (!obj[sourceArr[i][uniqueKey]]) {
+                    targetArr.push(sourceArr[i])
+                }
+            }
+
+            return targetArr
+
+        }
     }
 }
