@@ -368,7 +368,8 @@
                     this.msgList = msgList
                 }
 
-
+                this.isUnMore = false
+                this.isLoading = false
             },
 
 
@@ -382,11 +383,7 @@
                 //根据当前所在tab刷新数据
                 this.getMsgData()
 
-                //函数节流
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.isLoading = false
-                }, 300)
+
             },
 
 
@@ -408,10 +405,6 @@
                 //根据当前所在tab刷新数据
                 this.getMsgData(++this.currentPage, true)
 
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.isUnMore = false
-                }, 300)
 
             },
 

@@ -181,7 +181,7 @@
             <nut-scroller class="tagScroll">
 
                 <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==-1}"
-                     @click="changeTag(-1,null)"
+                     @click="changeTag(-1,'recommend')"
                 >
                     <span class="tagTitle">推荐</span>
                 </div>
@@ -209,332 +209,63 @@
                     :is-un-more="isUnMore"
                     :is-loading="isLoading"
                     @scrollToCbk="scrollToCbk"
-                    unloadMoreTxt="到底了"
+                    unloadMoreTxt="加载中"
             >
                 <div slot="list" class="moment-list">
 
 
-                    <li class="moment-item">
+                    <div v-for="item in momentList" :key="item.id">
+                        <li class="moment-item">
 
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
+                            <div class="header">
+                                <div class="avatar">
+                                    <img v-lazy="{
+                                        src:item.avatar,
+                                        loading:require('../../assets/img/loading.png')}"
+                                         alt="">
                                 </div>
-                            </div>
-
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
-                            </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
-
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
-
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
-
-                    <li class="moment-item">
-
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
+                                <div class="userinfo">
+                                    <div class="nickname">{{item.nickname}}</div>
+                                    <div class="desc">
+                                        <div class="post">砖块开发 @无业</div>
+                                        <div class="dot">·</div>
+                                        <div class="publish-time">{{calcTime(item.createTime)}}</div>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
                             </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
+                            <div class="middle">
+                                <div class="content" v-html="item.content">
 
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
-
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
-
-                    <li class="moment-item">
-
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
                                 </div>
-                            </div>
+                                <div class="img-list">
 
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
-                            </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
-
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
-
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
-
-                    <li class="moment-item">
-
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
+                                    <img v-lazy="{
+                                        src:img,
+                                        loading:require('../../assets/img/loading.png')}" v-for="img in item.images" :key="img">
                                 </div>
-                            </div>
 
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
-                            </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
-
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
-
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
-
-                    <li class="moment-item">
-
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
+                                <div class="topic" v-if="item.topicName">
+                                    <i class="iconfont icon-topic">{{item.topicName}}</i>
                                 </div>
-                            </div>
 
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
                             </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
+                            <div class="action">
 
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
 
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
+                                <i class="action-btn iconfont icon-dianzan" :class="{active:idIsContainMe(item.thumbUpList)}"><span style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
 
-                    <li class="moment-item">
+                                <i class="action-btn iconfont icon-pinglunxiao" >
+                                    <span style="padding: 0px 5px">{{item.commentCount}}</span>
+                                </i>
+                                <i class="action-btn iconfont icon-fenxiang1"></i>
+                            </div>
+                        </li>
+                        <div class="line"></div>
+                    </div>
 
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
-                            </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
 
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
-
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
-
-                    <li class="moment-item">
-
-                        <div class="header">
-                            <div class="avatar">
-                                <img src="https://images.sunofbeaches.com/content/2021_12_02/915973725776510976.png"
-                                     alt="">
-                            </div>
-                            <div class="userinfo">
-                                <div class="nickname">ccTyL</div>
-                                <div class="desc">
-                                    <div class="post">砖块开发 @无业</div>
-                                    <div class="dot">·</div>
-                                    <div class="publish-time">4小时前</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="middle">
-                            <div class="content">
-                                左边是咋们游戏js的代码，右边其他家换皮混淆后的js代码，找了好几天，把你认为相同的代码都找出来。
-                                一个文件总共24w行
-                            </div>
-                            <div class="img-list">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                                <img src="https://images.sunofbeaches.com/content/2022_04_20/966396492690489344.png"
-                                     alt="">
-                            </div>
-
-                            <div class="topic">
-                                <i class="iconfont icon-topic">代码之美</i>
-                            </div>
-
-                        </div>
-                        <div class="action">
-                            <i class="action-btn iconfont icon-dianzan">1</i>
-                            <i class="action-btn iconfont icon-pinglunxiao"></i>
-                            <i class="action-btn iconfont icon-fenxiang1"></i>
-                        </div>
-                    </li>
-                    <div class="line"></div>
                 </div>
 
 
@@ -557,13 +288,14 @@
                 isLoading: false,//是否正在下拉刷新数据
                 currentTag: -1,//记录当前是哪个tag被选中了
                 categoryList: [], //顶部标签数组
-                currentTagId: '',//记录当前被选中的tagid
-                currentPage: 0, //当前所在页码
+                currentTagId: 'recommend',//记录当前被选中的tagid
+                currentPage: 1, //当前所在页码
                 scrollY: 0, //页面要滚动到哪个位置，是负数
                 currentScroll: 0,//现在滚动到哪了
                 scrollElem: {},//正在滚动的容器
                 imgList: [],//emoji图片列表
                 momentList: [],//动态列表
+                toast:{},//提示框对象
             }
         },
         created() {
@@ -630,6 +362,7 @@
              */
             async getMoYuList(topicId = 'recommend', page = 1, isMerge = false) {
 
+
                 let result = await api.getMoyuList(topicId, page)
                 if (isMerge) {
                     this.momentList = this.mergeTargetFromSource(this.momentList, result.data.list, 'id')
@@ -639,6 +372,16 @@
 
                 //关闭骨架屏
                 this.isSkeletonLoading = false
+
+                this.isUnMore = false
+                this.isLoading = false
+                if (this.toast.hide){
+
+                    this.$nextTick(() => {
+                        this.toast.hide();
+                    })
+                }
+
             },
 
 
@@ -647,13 +390,12 @@
              */
             loadMoreVert() {
                 this.isUnMore = true
-                this.getArticleList(++this.currentPage, true)
+                this.getMoYuList(this.currentTagId,++this.currentPage, true)
 
-
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.isUnMore = false
-                }, 300)
+                this.toast  =  this.$toast.loading('加载中...',{
+                    duration:3000,
+                    id:'momentLoading'
+                });
 
             },
 
@@ -661,13 +403,10 @@
              * 下拉刷新
              */
             pulldown() {
+                console.log("下拉")
                 this.isLoading = true
-                this.getArticleList(0, false)
+                this.getMoYuList(this.currentTagId,1, false)
 
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.isLoading = false
-                }, 300)
             },
 
             /**
@@ -697,9 +436,7 @@
              * @param tagIndex
              */
             changeTag(tagIndex, tagItem) {
-                console.log('切换了页面')
                 this.currentTag = tagIndex
-
 
                 //如果不是推荐页，那么这个tagItem是有值的
                 if (tagItem) {
@@ -707,11 +444,22 @@
 
 
                 } else {
-                    //如果是推荐页，那么将currentTagId置为null
-                    this.currentTagId = null
+                    //如果是推荐页，那么将currentTagId置为recommend
+                    this.currentTagId = 'recommend'
                 }
 
                 this.getMoYuList(this.currentTagId, 1, false)
+            },
+
+            /**
+             * 判断用户id列表中是否包含我的id
+             * @param userIdList
+             */
+            idIsContainMe(userIdList){
+                if (userIdList.includes(this.$store.state.userInfo.id)){
+                   return true
+                }
+                return false
             },
 
         }
@@ -822,6 +570,7 @@
     .moment-item .middle .img-list {
         display: flex;
         flex-wrap: wrap;
+        margin-bottom: 10px;
     }
 
     .moment-item .middle .img-list img {
@@ -858,6 +607,14 @@
         line-height: 40px;
 
 
+
+    }
+    .moment-item .action .action-btn ::before{
+        margin-right: 2px;
+    }
+
+    .moment-item .action .active{
+        color: #0084ff!important;
     }
 
 </style>

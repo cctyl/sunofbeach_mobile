@@ -359,14 +359,18 @@
                     //         // console.log(result.data.list[i].name + '不会被添加')
                     //     }
                     // }
-                    this.recommendArticleList = this.removeTargetFromSource(this.recommendArticleList,result.data.list,'id')
+                    this.recommendArticleList = this.mergeTargetFromSource(this.recommendArticleList,result.data.list,'id')
                 } else {
                     //更新数据
                     this.recommendArticleList = result.data.list
                 }
 
+                //加载完毕数据，取消提示
+                this.isLoading = false
+                this.isUnMore = false
                 this.$nextTick(() => {
                     this.isSkeletonLoading = false
+
                 })
 
             },
@@ -379,10 +383,6 @@
                 this.getArticleList(++this.currentPage, true)
 
 
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.isUnMore = false
-                }, 300)
 
             },
 
@@ -393,10 +393,7 @@
                 this.isLoading = true
                 this.getArticleList(0, false)
 
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.isLoading = false
-                }, 300)
+
             },
 
             /**

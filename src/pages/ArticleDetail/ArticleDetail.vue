@@ -373,7 +373,6 @@
 
 <script>
     import api from '../../api'
-    import moment from 'moment'
     import 'github-markdown-css'
     import 'highlight.js/styles/default.css'
     import hljs from 'highlight.js'
@@ -474,17 +473,7 @@
                 this.commentList = commentList
             },
 
-            /**
-             * 计算距离现在有多长时间
-             */
-            calcTime(timeStr) {
-                let formatResult = moment(timeStr, "YYYY-MM-DD HH:mm").fromNow()
-                if (formatResult=='Invalid date'){
-                    return timeStr
-                }else {
-                    return formatResult
-                }
-            },
+
 
             /**
              * 给当前文章点赞

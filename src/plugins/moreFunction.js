@@ -1,3 +1,5 @@
+import moment from "moment";
+
 /**
  * 这是一个插件
  * 是为了提供一些全局方法而定义的
@@ -69,6 +71,20 @@ export default {
 
             return targetArr
 
+        }
+
+        /**
+         * 将YYYY-MM-DD HH:mm 格式的时间格式化，并计算距离现在有多久
+         * @param timeStr
+         * @returns {string|*}
+         */
+        Vue.prototype.calcTime= function(timeStr) {
+            let formatResult = moment(timeStr, "YYYY-MM-DD HH:mm").fromNow()
+            if (formatResult=='Invalid date'){
+                return timeStr
+            }else {
+                return formatResult
+            }
         }
     }
 }
