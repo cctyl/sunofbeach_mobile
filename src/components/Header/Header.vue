@@ -217,6 +217,7 @@
                     thumbUpMsgCount: 0,
                     wendaMsgCount: 0
                 },
+                timer:{},//刷新消息的定时器对象
 
 
 
@@ -240,8 +241,16 @@
         },
 
         mounted() {
-            this.getMsgCount()
 
+            this.getMsgCount()
+            clearInterval(this.timer)
+            setInterval(()=>{
+                if (this.$store.state.userInfo){
+                    this.getMsgCount()
+                    console.log("更新一次消息")
+                }
+
+            },10000)
 
         },
 
@@ -303,7 +312,6 @@
             async getMsgCount() {
                 //直接发送请求获取未读消息数量
                 let result = await api.getMsgCount();
-                console.log(result)
                 this.msgData = result.data;
 
             },
