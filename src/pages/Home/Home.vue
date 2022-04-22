@@ -13,179 +13,183 @@
         >
         </nut-backtop>
 
-
-        <div v-if="isSkeletonLoading">
-            <row padding="0 10px 0">
-                <skeleton-square
-                        width="390px"
-                        height="25px"
-                ></skeleton-square>
-
-            </row>
-
-            <row slot="list" padding="15px 10px 0">
-
-
-                <column>
+        <!--骨架屏-->
+        <div v-if="isSkeletonLoading" class="vue-skeleton-loading">
+            <div class="skeleton-bac-animation"></div>
+            <div>
+                <row padding="0 10px 0">
                     <skeleton-square
                             width="390px"
-                            height="168px"
+                            height="25px"
                     ></skeleton-square>
 
-                </column>
+                </row>
+
+                <row slot="list" padding="15px 10px 0">
 
 
-            </row>
+                    <column>
+                        <skeleton-square
+                                width="390px"
+                                height="168px"
+                        ></skeleton-square>
+
+                    </column>
 
 
-            <row slot="list" padding="15px 10px 0">
+                </row>
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
 
-                <column>
+                <row slot="list" padding="15px 10px 0">
+
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
+                </row>
 
-            <row slot="list" padding="15px 10px 0">
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
-            <row slot="list" padding="15px 10px 0">
+                </row>
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
-            <row slot="list" padding="15px 10px 0">
+                </row>
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
-            <row slot="list" padding="15px 10px 0">
+                </row>
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
-            <row slot="list" padding="15px 10px 0">
+                </row>
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
-            <row slot="list" padding="15px 10px 0">
+                </row>
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
-            <row slot="list" padding="15px 10px 0">
+                </row>
+                <row slot="list" padding="15px 10px 0">
 
-                <skeleton-square
-                        width="50px"
-                        height="50px"
-                >
-                </skeleton-square>
-
-                <column>
                     <skeleton-square
-                            width="300px"
-                            :count="2"
-                            margin="10px 10px 5px"
-                    ></skeleton-square>
-                </column>
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="300px"
+                                :count="2"
+                                margin="10px 10px 5px"
+                        ></skeleton-square>
+                    </column>
 
 
-            </row>
+                </row>
+            </div>
 
 
         </div>
+
 
         <template  v-else>
             <!--标签栏-->
@@ -535,6 +539,31 @@
 </script>
 
 <style scoped>
+
+    /*---------------骨架屏 ---------------*/
+    .vue-skeleton-loading {
+        position: fixed;
+        top: 5px;
+        right: 0;
+        bottom: 0;
+        left: -10px;
+        z-index: 9998;
+        font-size: 12px;
+        background: #fff;
+    }
+    .vue-skeleton-loading .skeleton-bac-animation {
+        position: absolute;
+        z-index: auto;
+        width: 100%;
+        height: 100%;
+        background: -webkit-gradient(linear,left top,right top,from(hsla(0,0%,100%,0)),color-stop(50%,hsla(0,0%,100%,.5)),color-stop(80%,hsla(0,0%,100%,0)));
+        background: -o-linear-gradient(left,hsla(0,0%,100%,0),hsla(0,0%,100%,.5) 50%,hsla(0,0%,100%,0) 80%);
+        background: linear-gradient(90deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.5) 50%,hsla(0,0%,100%,0) 80%);
+        background-size: 30% 100%;
+        background-repeat: no-repeat;
+        -webkit-animation: backpos .9s ease-in-out 0s infinite;
+        animation: backpos .9s ease-in-out 0s infinite;
+    }
 
     .totalScroll {
         height: calc(100vh - 59px);
