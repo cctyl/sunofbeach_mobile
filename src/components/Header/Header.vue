@@ -244,7 +244,7 @@
 
             this.getMsgCount()
             clearInterval(this.timer)
-            setInterval(()=>{
+            this.timer = setInterval(()=>{
                 if (this.$store.state.userInfo){
                     this.getMsgCount()
                     console.log("更新一次消息")
