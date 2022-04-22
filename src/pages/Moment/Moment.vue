@@ -178,7 +178,10 @@
 
         <template v-else>
             <!--标签栏-->
-            <nut-scroller class="tagScroll">
+            <nut-scroller class="tagScroll"
+                          :scrollTo="tagScrollY"
+                          @scrollToCbk="tagScrollToCbk"
+            >
 
                 <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==-1}"
                      @click="changeTag(-1,'recommend')"
@@ -186,7 +189,9 @@
                     <span class="tagTitle">推荐</span>
                 </div>
 
-                <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==index}"
+                <div slot="list" class="tagItem nut-hor-list-item "
+                     :ref="'tagScroll'+index"
+                     :class="{tagCurrent: currentTag==index}"
                      v-for="(item,index) in categoryList" :key="item.id"
                      @click="changeTag(index,item)"
                 >
@@ -200,7 +205,7 @@
 
                     ref="mynutscroller"
 
-                    :scrollTo="scrollY"
+                    :scrollTo="momentListScrollY"
                     type="vertical"
                     class="totalScroll"
                     @loadMore="loadMoreVert"
@@ -286,7 +291,7 @@
                                 </div>
 
 
-                                <div class="topic" v-if="item.topicName">
+                                <div class="topic" v-if="item.topicName" @click="clickToTopic(item.topicId)" >
                                     <i class="iconfont icon-topic">{{item.topicName}}</i>
                                 </div>
 
@@ -335,7 +340,8 @@
                 categoryList: [], //顶部标签数组
                 currentTagId: 'recommend',//记录当前被选中的tagid
                 currentPage: 1, //当前所在页码
-                scrollY: 0, //页面要滚动到哪个位置，是负数
+                momentListScrollY: 0, //摸鱼列表部分要滚动到哪个位置，是负数
+                tagScrollY: 0, //话题部分要滚动到哪个位置，是负数
                 currentScroll: 0,//现在滚动到哪了
                 scrollElem: {},//正在滚动的容器
                 imgList: [],//emoji图片列表
@@ -343,6 +349,7 @@
                 toast: {},//提示框对象
                 bigImgShow: false,//大图展示开关
                 bigImgUrl: '',//大图链接
+                scrollTo:0,//标签跳转值
             }
         },
         // created() {
@@ -363,14 +370,26 @@
             this.isSkeletonLoading = true
             this.getMoYuList();
 
-
-            // let allTopicResult = await api.getMoyuAllTopic()
-            // console.log(allTopicResult)
-            // let hotTopicResult = await api.getMoyuHotTopic()
-            // console.log(hotTopicResult)
-            // this.getMomentTopicList()
+            this.getMomentTopicList()
         },
         methods: {
+
+
+            /**
+             * 话题部分的滚动回调
+             * 滚动到指定位置后的回调
+             * 可以不写内容，但似乎不能没有
+             */
+            tagScrollToCbk() {
+                console.log("scrollToCbk")
+            },
+
+            /**
+             * 摸鱼动态部分的滚动回调
+             */
+            scrollToCbk() {
+                console.log("scrollToCbk")
+            },
 
             /**
              * 获取动态话题列表
@@ -378,34 +397,33 @@
             async getMomentTopicList() {
                 let allTopicResult = await api.getMoyuAllTopic()
                 let hotTopicResult = await api.getMoyuHotTopic()
-                // let allTopicList = allTopicResult.data
+                let allTopicList = allTopicResult.data
 
-                console.log(hotTopicResult)
-                console.log(allTopicResult)
 
-                // //从allTopicList中找到hotTopicList的数据
-                // //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
-                // let hotTopicIds = hotTopicResult.data.map(currentValue => currentValue.id)
-                //
-                //
-                // //在allTopicList中的hotTopic
-                // let hotInAll = []
-                //
-                // //去除了hotTopic的剩余topic
-                // let hotNotInAll = []
-                //
-                // //分类
-                // allTopicList.forEach(item => {
-                //     if (hotTopicIds.includes(item.id)) {
-                //         hotInAll.push(item)
-                //     } else {
-                //         hotNotInAll.push(item)
-                //     }
-                // })
-                //
-                // //将hotInAll插入到hotNotInAll前面
-                // this.categoryList = hotInAll.concat(hotNotInAll)
-                //
+
+                //从allTopicList中找到hotTopicList的数据
+                //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
+                let hotTopicIds = hotTopicResult.data.map(currentValue => currentValue.id)
+
+
+                //在allTopicList中的hotTopic
+                let hotInAll = []
+
+                //去除了hotTopic的剩余topic
+                let hotNotInAll = []
+
+                //分类
+                allTopicList.forEach(item => {
+                    if (hotTopicIds.includes(item.id)) {
+                        hotInAll.push(item)
+                    } else {
+                        hotNotInAll.push(item)
+                    }
+                })
+
+                //将hotInAll插入到hotNotInAll前面
+                this.categoryList = hotInAll.concat(hotNotInAll)
+
 
             },
 
@@ -423,7 +441,17 @@
 
                 //对集合进行处理，比如时间，是否点赞，域名等
                 for (let i = 0; i < sourceList.length; i++) {
+
+
+
                     let item = sourceList[i]
+
+
+                    //屏蔽部分用户
+                    if (item.userId==='1256120724666454016'){
+                        sourceList.splice(i,1)
+                        continue
+                    }
 
                     //添加本人是否点赞字段
                     item.thumbUpActive = this.idIsContainMe(item.thumbUpList)
@@ -496,13 +524,7 @@
                 }
             },
 
-            /**
-             * 滚动到指定位置后的回调
-             * 可以不写内容，但似乎不能没有
-             */
-            scrollToCbk() {
-                console.log("scrollToCbk")
-            },
+
 
             /**
              * 切换标签页的回调
@@ -554,8 +576,6 @@
              * @param url
              */
             showBigImg(images, index) {
-                console.log(images,index)
-                console.log(this.$imageTouch)
                 this.$imageTouch(
                     {
                         imageList: images, // 图片数据源
@@ -563,6 +583,38 @@
                         isShowBar: true,   // 是否显示进度
                     }
                 );
+            },
+
+
+            /**
+             * 点击话题，跳转到该话题的标签下
+             * @param topicId
+             */
+            clickToTopic(topicId){
+
+                //找到话题
+                console.log(topicId)
+
+                let topicIndex = 0
+                let topicItem = this.categoryList.filter((value,index) => {
+                    if (value.id===topicId){
+
+                        topicIndex = index
+                        return true
+                    }else {
+                        return false
+                    }
+                })
+
+                if (topicItem){
+
+                    //找到这个元素，触发他的点击事件
+                    this.$refs['tagScroll' + topicIndex][0].click()
+
+                    //滚动到标签所在的位置
+                    this.tagScrollY = -this.$refs['tagScroll' + topicIndex][0].getBoundingClientRect().left+40
+                }
+
             },
 
         }
