@@ -10,7 +10,7 @@
         <!--侧边栏-->
         <div class="side">
             <div class="nav-show-btn" @click="setNavListShow(!navListShow)">
-                <span class="nav-title">{{navText}}</span>
+                <span class="nav-title">{{$route.meta.navText?$route.meta.navText:'首页'}}</span>
                 <i class="iconfont"
                    :class="navListShow?'icon-shangzhankai':'icon-xiazhankai'"
                 />
@@ -18,7 +18,7 @@
 
             <ul class="nav-list" v-show="navListShow">
                 <li class="nav-item" @click="toPage('/home','首页')">
-                    <a :class="{'nav-active': $route.path==='/home' }"
+                    <a :class="{'nav-active': $route.path==='/home'|| $route.path==='/'}"
                     >首页</a>
                 </li>
 
@@ -218,7 +218,7 @@
                     wendaMsgCount: 0
                 },
 
-                navText:'首页',//导航栏按钮文字
+
 
             }
         },
@@ -241,6 +241,8 @@
 
         mounted() {
             this.getMsgCount()
+
+
         },
 
         methods: {
@@ -276,13 +278,12 @@
              * @param url 页面路径
              * @param navText 导航按钮文字
              */
-            toPage(url,navText){
+            toPage(url){
                 //已在此页面，不跳转
                 this.setNavListShow(false)
                 if (this.$route.path === url){
                     return
                 }
-                this.navText = navText
                 this.$router.push(url)
 
 

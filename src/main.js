@@ -50,6 +50,11 @@ import moment from "moment";
 moment.locale('zh-cn');
 
 
+//图片预览插件
+import VueImageTouch from 'vue-image-touch';
+Vue.use(VueImageTouch);
+
+
 //导入自定义插件
 import moreFunction from "./plugins/moreFunction";
 //应用插件，注意必须在vm对象创建之前应用

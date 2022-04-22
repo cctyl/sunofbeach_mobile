@@ -187,96 +187,97 @@
 
         </div>
 
+        <template  v-else>
+            <!--标签栏-->
+            <nut-scroller class="tagScroll">
 
-        <nut-scroller
-
-                ref="mynutscroller"
-                v-else
-                :scrollTo="scrollY"
-                type="vertical"
-                class="totalScroll"
-                @loadMore="loadMoreVert"
-                @pulldown="pulldown"
-                @scrollChange="scrollChange"
-                :is-un-more="isUnMore"
-                :is-loading="isLoading"
-                @scrollToCbk="scrollToCbk"
-                unloadMoreTxt="到底了"
-        >
-            <div slot="list" class="nut-hor-list-item">
-
-                <!--标签栏-->
-                <nut-scroller class="tagScroll">
-
-                    <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==-1}"
-                         @click="changeTag(-1,null)"
-                    >
-                        <span class="tagTitle">推荐</span>
-                    </div>
-
-                    <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==index}"
-                         v-for="(item,index) in categoryList" :key="item.id"
-                         @click="changeTag(index,item)"
-                    >
-                        <span class="tagTitle">{{item.categoryName}}</span>
-                    </div>
-
-                </nut-scroller>
-
-
-                <div class="line"></div>
-
-                <!--轮播图，仅为推荐页面时使用-->
-                <nut-swiper
-                        class="img-swiper"
-                        v-show="currentTag==-1"
-                        :autoPlay="2000"
-                        direction="horizontal"
-                        :loop="true"
-                        :canDragging="false"
-                        :paginationVisible="true"
-                        :swiperData="loopList"
-                        ref="demo3"
+                <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==-1}"
+                     @click="changeTag(-1,null)"
                 >
-                    <div class="nut-swiper-slide" v-for="item in loopList" :key="item.id">
-                        <img :src="item.picUrl" class="swiperImg" alt="">
-                    </div>
-                </nut-swiper>
+                    <span class="tagTitle">推荐</span>
+                </div>
+
+                <div slot="list" class="tagItem nut-hor-list-item " :class="{tagCurrent: currentTag==index}"
+                     v-for="(item,index) in categoryList" :key="item.id"
+                     @click="changeTag(index,item)"
+                >
+                    <span class="tagTitle">{{item.categoryName}}</span>
+                </div>
+
+            </nut-scroller>
+            <div class="line"></div>
+            <nut-scroller
+
+                    ref="mynutscroller"
+
+                    :scrollTo="scrollY"
+                    type="vertical"
+                    class="totalScroll"
+                    @loadMore="loadMoreVert"
+                    @pulldown="pulldown"
+                    @scrollChange="scrollChange"
+                    :is-un-more="isUnMore"
+                    :is-loading="isLoading"
+                    @scrollToCbk="scrollToCbk"
+                    unloadMoreTxt="到底了"
+            >
+                <div slot="list" class="nut-hor-list-item">
 
 
-                <!--文章列表 -->
-                <div id="totalScroll">
 
-                    <ul class="articleList">
-                        <!--文章详情-->
-                        <li class="articleItem" v-for="item in recommendArticleList" :key="item.id"
-                            @click="toArticleDetail(item.id)">
-                            <div class="left">
-                                <img style="object-fit: cover;" :src="item.covers[0]" alt="">
-                            </div>
-                            <div class="right">
-                                <h2 class="title">{{item.title}}</h2>
-                                <div class="articleInfo">
-                                    <span class="author articleInfoItem">{{item.nickName}}</span>
-                                    <span class="viewCount articleInfoItem">{{item.viewCount}}阅读</span>
-                                    <span class="thumbUp articleInfoItem">{{item.thumbUp}}点赞</span>
+                    <!--轮播图，仅为推荐页面时使用-->
+                    <nut-swiper
+                            class="img-swiper"
+                            v-show="currentTag==-1"
+                            :autoPlay="2000"
+                            direction="horizontal"
+                            :loop="true"
+                            :canDragging="false"
+                            :paginationVisible="true"
+                            :swiperData="loopList"
+                            ref="demo3"
+                    >
+                        <div class="nut-swiper-slide" v-for="item in loopList" :key="item.id">
+                            <img :src="item.picUrl" class="swiperImg" alt="">
+                        </div>
+                    </nut-swiper>
 
+
+                    <!--文章列表 -->
+                    <div id="totalScroll">
+
+                        <ul class="articleList">
+                            <!--文章详情-->
+                            <li class="articleItem" v-for="item in recommendArticleList" :key="item.id"
+                                @click="toArticleDetail(item.id)">
+                                <div class="left">
+                                    <img style="object-fit: cover;" :src="item.covers[0]" alt="">
                                 </div>
-                            </div>
+                                <div class="right">
+                                    <h2 class="title">{{item.title}}</h2>
+                                    <div class="articleInfo">
+                                        <span class="author articleInfoItem">{{item.nickName}}</span>
+                                        <span class="viewCount articleInfoItem">{{item.viewCount}}阅读</span>
+                                        <span class="thumbUp articleInfoItem">{{item.thumbUp}}点赞</span>
+
+                                    </div>
+                                </div>
 
 
-                        </li>
+                            </li>
 
 
-                    </ul>
+                        </ul>
 
+
+                    </div>
 
                 </div>
 
-            </div>
 
+            </nut-scroller>
+        </template>
 
-        </nut-scroller>
 
     </div>
 </template>

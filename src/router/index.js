@@ -22,14 +22,16 @@ const router = new VueRouter({
             path: '/home',
             component: Home,
             meta:{
-                showHeader:true
+                showHeader:true,
+                navText:'首页'
             }
         },
         {
             path: '/detail',
             component: ArticleDetail,
             meta:{
-                showHeader:true
+                showHeader:true,
+                navText:'首页'
             }
 
         },
@@ -41,14 +43,16 @@ const router = new VueRouter({
             path:'/message',
             component:Message,
             meta:{
-                showHeader:true
+                showHeader:true,
+                navText:'首页'
             }
         },
         {
             path:'/moment',
             component:Moment,
             meta:{
-                showHeader:true
+                showHeader:true,
+                navText:'摸鱼'
             }
         },
 

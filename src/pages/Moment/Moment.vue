@@ -219,34 +219,72 @@
 
                             <div class="header">
                                 <div class="avatar">
-                                    <img v-lazy="{
+                                    <!--<img v-lazy="{
                                         src:item.avatar,
                                         loading:require('../../assets/img/loading.png'),
                                         error:require('../../assets/img/loadError.png')
 
                                     }"
-                                         alt="">
+                                         alt="">-->
+                                    <img :src="item.avatar" alt="">
                                 </div>
                                 <div class="userinfo">
                                     <div class="nickname">{{item.nickname}}</div>
                                     <div class="desc">
-                                        <div class="post">砖块开发 @无业</div>
+                                        <div class="post">{{item.company?item.company:'无业'}}
+                                            @{{item.position?item.position:'正在定位中'}}
+                                        </div>
                                         <div class="dot">·</div>
-                                        <div class="publish-time">{{calcTime(item.createTime)}}</div>
+                                        <div class="publish-time">{{item.createTime}}</div>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="middle">
+
+                                <!--动态内容-->
                                 <div class="content" v-html="item.content">
 
                                 </div>
-                                <div class="img-list">
 
-                                    <img v-lazy="{
-                                        src:img,
-                                        loading:require('../../assets/img/loading.png')}" v-for="img in item.images" :key="img">
+                                <!--图片列表-->
+                                <div class="img-list" v-if="item.images.length>0">
+
+
+                                    <div
+                                            @click="showBigImg(item.images,index)"
+                                            v-for="(img,index) in item.images" :key="img"
+                                            class="bg-img"
+                                            v-bind:style="{backgroundImage:`url('${img}')`}">
+                                    </div>
+
                                 </div>
+
+                                <!--分享的链接-->
+                                <div class="link-box" v-if="item.linkUrl">
+                                    <a :href="item.linkUrl">
+
+                                        <!--如果这个链接有封面-->
+                                        <div class="link-cover"
+                                             v-if="item.linkCover"
+                                             v-bind:style="{backgroundImage:`url('${item.linkCover})`}"
+                                        >
+                                        </div>
+
+                                        <!--没有封面的情况下-->
+                                        <div class="link-cover-default"
+                                             v-else
+                                        >
+                                            <i class="iconfont icon-link"></i>
+                                        </div>
+
+                                        <div class="link-info">
+                                            <div class="link-title">{{item.linkTitle?item.linkTitle:'-'}}</div>
+                                            <div class="link-domain">{{item.linkHost}}</div>
+                                        </div>
+                                    </a>
+                                </div>
+
 
                                 <div class="topic" v-if="item.topicName">
                                     <i class="iconfont icon-topic">{{item.topicName}}</i>
@@ -256,9 +294,10 @@
                             <div class="action">
 
 
-                                <i class="action-btn iconfont icon-dianzan" :class="{active:idIsContainMe(item.thumbUpList)}"><span style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
+                                <i class="action-btn iconfont icon-dianzan"
+                                   :class="{active:item.thumbUpActive}"><span style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
 
-                                <i class="action-btn iconfont icon-pinglunxiao" >
+                                <i class="action-btn iconfont icon-pinglunxiao">
                                     <span style="padding: 0px 5px">{{item.commentCount}}</span>
                                 </i>
                                 <i class="action-btn iconfont icon-fenxiang1"></i>
@@ -266,9 +305,6 @@
                         </li>
                         <div class="line"></div>
                     </div>
-
-
-
                 </div>
 
 
@@ -276,11 +312,17 @@
 
         </template>
 
+        <!--弹出层-大图展示-->
+        <nut-popup :style="{ width: '100vw', height:'100vh'}" v-model="bigImgShow">
+            <img class="big-img" :src="bigImgUrl" alt="">
+        </nut-popup>
+
     </div>
 </template>
 
 <script>
     import api from '../../api/index'
+    import {parseDomain, fromUrl} from "parse-domain";
 
     export default {
         name: "Moment",
@@ -298,27 +340,35 @@
                 scrollElem: {},//正在滚动的容器
                 imgList: [],//emoji图片列表
                 momentList: [],//动态列表
-                toast:{},//提示框对象
+                toast: {},//提示框对象
+                bigImgShow: false,//大图展示开关
+                bigImgUrl: '',//大图链接
             }
         },
-        created() {
-            const files = require.context("@/assets/img/emoji", true, /\.*\.jpg|png$/).keys()
-            this.imgList = []
-            for (let i = 0; i < files.length; i++) {
-
-                //去掉路径前面的 .  ./img13.png ---> /img13.png
-                let currentImgPath = files[i].slice(1)
-
-                //只传递路劲字符串是无法引用的，必须用require
-                this.imgList.push(require("../../assets/img/emoji" + currentImgPath))
-
-            }
-        },
+        // created() {
+        //     const files = require.context("@/assets/img/emoji", true, /\.*\.jpg|png$/).keys()
+        //     this.imgList = []
+        //     for (let i = 0; i < files.length; i++) {
+        //
+        //         //去掉路径前面的 .  ./img13.png ---> /img13.png
+        //         let currentImgPath = files[i].slice(1)
+        //
+        //         //只传递路劲字符串是无法引用的，必须用require
+        //         this.imgList.push(require("../../assets/img/emoji" + currentImgPath))
+        //
+        //     }
+        // },
         mounted() {
             //展示骨架屏
             this.isSkeletonLoading = true
             this.getMoYuList();
-            this.getMomentTopicList()
+
+
+            // let allTopicResult = await api.getMoyuAllTopic()
+            // console.log(allTopicResult)
+            // let hotTopicResult = await api.getMoyuHotTopic()
+            // console.log(hotTopicResult)
+            // this.getMomentTopicList()
         },
         methods: {
 
@@ -328,10 +378,10 @@
             async getMomentTopicList() {
                 let allTopicResult = await api.getMoyuAllTopic()
                 let hotTopicResult = await api.getMoyuHotTopic()
-                let allTopicList = allTopicResult.data
+                // let allTopicList = allTopicResult.data
 
                 console.log(hotTopicResult)
-                console.log(allTopicList)
+                console.log(allTopicResult)
 
                 // //从allTopicList中找到hotTopicList的数据
                 // //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
@@ -369,10 +419,28 @@
 
 
                 let result = await api.getMoyuList(topicId, page)
+                let sourceList = result.data.list
+
+                //对集合进行处理，比如时间，是否点赞，域名等
+                for (let i = 0; i < sourceList.length; i++) {
+                    let item = sourceList[i]
+
+                    //添加本人是否点赞字段
+                    item.thumbUpActive = this.idIsContainMe(item.thumbUpList)
+
+                    //修改时间
+                    item.createTime = this.calcTime(item.createTime)
+
+                    //对分享的链接解析出域名
+                    if (item.linkUrl) {
+                        item.linkHost = this.getDomain(item.linkUrl)
+                    }
+                }
+
                 if (isMerge) {
-                    this.momentList = this.mergeTargetFromSource(this.momentList, result.data.list, 'id')
+                    this.momentList = this.mergeTargetFromSource(this.momentList, sourceList, 'id')
                 } else {
-                    this.momentList = result.data.list
+                    this.momentList = sourceList
                 }
 
                 //关闭骨架屏
@@ -380,7 +448,7 @@
 
                 this.isUnMore = false
                 this.isLoading = false
-                if (this.toast.hide){
+                if (this.toast.hide) {
 
                     this.$nextTick(() => {
                         this.toast.hide();
@@ -395,11 +463,11 @@
              */
             loadMoreVert() {
                 this.isUnMore = true
-                this.getMoYuList(this.currentTagId,++this.currentPage, true)
+                this.getMoYuList(this.currentTagId, ++this.currentPage, true)
 
-                this.toast  =  this.$toast.loading('加载中...',{
-                    duration:3000,
-                    id:'momentLoading'
+                this.toast = this.$toast.loading('加载中...', {
+                    duration: 0,
+                    id: 'momentLoading'
                 });
 
             },
@@ -410,7 +478,7 @@
             pulldown() {
                 console.log("下拉")
                 this.isLoading = true
-                this.getMoYuList(this.currentTagId,1, false)
+                this.getMoYuList(this.currentTagId, 1, false)
 
             },
 
@@ -460,16 +528,41 @@
              * 判断用户id列表中是否包含我的id
              * @param userIdList
              */
-            idIsContainMe(userIdList){
+            idIsContainMe(userIdList) {
 
-                if (!this.isLogin()){
+                if (!this.$store.state.userInfo) {
                     return false
                 }
 
-                if (userIdList.includes(this.$store.state.userInfo.id)){
-                   return true
+                if (userIdList.includes(this.$store.state.userInfo.id)) {
+                    return true
                 }
                 return false
+            },
+
+            /**
+             * 解析url，获取域名
+             * @param url
+             */
+            getDomain(url) {
+                let parseResult = parseDomain(fromUrl(url));
+                return parseResult.hostname
+            },
+
+            /**
+             * 查看大图
+             * @param url
+             */
+            showBigImg(images, index) {
+                console.log(images,index)
+                console.log(this.$imageTouch)
+                this.$imageTouch(
+                    {
+                        imageList: images, // 图片数据源
+                        activedIndex: index, // 进度下标
+                        isShowBar: true,   // 是否显示进度
+                    }
+                );
             },
 
         }
@@ -540,9 +633,10 @@
         border-radius: 50%;
     }
 
+
     .moment-item .header .userinfo {
         margin-left: 12px;
-        width: 158px;
+
         height: 50px;
     }
 
@@ -559,6 +653,14 @@
         font-size: 12px;
         line-height: 20px;
         color: #8a919f;
+
+    }
+
+    .moment-item .header .userinfo .desc .post {
+        width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
     }
 
     .moment-item .header .userinfo .desc .dot {
@@ -589,6 +691,78 @@
         width: calc(43.33333% - 2.66667px);
     }
 
+    .moment-item .middle .img-list .bg-img {
+        margin-right: 4px;
+        margin-top: 4px;
+        background-size: cover;
+        background-position: center;
+        max-width: 100%;
+        min-width: 110px;
+        cursor: zoom-in;
+        min-height: 110px;
+        max-height: 230px;
+    }
+
+    .moment-item .middle .link-box {
+        background-color: #f7f8fa;
+        border-radius: 2px;
+        box-sizing: border-box;
+        margin-top: 10px;
+    }
+
+    .moment-item .middle .link-box a {
+        display: flex;
+        flex-direction: row;
+        padding: 15px 0px 15px 15px;
+        margin-bottom: 10px;
+    }
+
+    .moment-item .middle .link-box a .link-cover {
+        width: 40px;
+        height: 40px;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 2px;
+        margin-right: 10px;
+    }
+
+    .moment-item .middle .link-box a .link-cover-default {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 2px;
+        margin-right: 10px;
+        background: #0084ff;
+        color: white;
+        text-align: center;
+        line-height: 40px;
+    }
+
+    .moment-item .middle .link-box a .link-info {
+        width: 205px;
+
+    }
+
+    .moment-item .middle .link-box a .link-info .link-title {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        color: #515767;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        white-space: nowrap;
+    }
+
+    .moment-item .middle .link-box a .link-info .link-domain {
+        margin-top: auto;
+        font-size: 12px;
+        line-height: 20px;
+        color: #8a919f;
+    }
+
     .moment-item .middle .topic {
         margin: 12px 0px 12px;
         width: fit-content;
@@ -597,7 +771,7 @@
         align-items: center;
         padding: 2px 6px;
         background-color: #eaf2ff;
-        font-size: 12px!important;
+        font-size: 12px !important;
         height: 25px;
         line-height: 20px;
         color: #1e80ff;
@@ -617,14 +791,20 @@
         line-height: 40px;
 
 
-
     }
-    .moment-item .action .action-btn ::before{
+
+    .moment-item .action .action-btn ::before {
         margin-right: 2px;
     }
 
-    .moment-item .action .active{
-        color: #0084ff!important;
+    .moment-item .action .active {
+        color: #0084ff !important;
     }
 
+
+    /*---------------弹出层-大图 ---------------*/
+    .big-img {
+        max-width: 100vw;
+        max-height: 100vh;
+    }
 </style>
