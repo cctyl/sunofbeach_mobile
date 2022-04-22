@@ -450,10 +450,10 @@
                 //因nutui本身会记忆 位置，滑动屏幕后又会回到之前的位置,所以动画播放完毕后，需要触发滚动事件，使的nutui记忆的位置与当前位置同步
                 setTimeout(()=>{
                     //scrollY 必须变化，才会触发nutui的滚动事件
-                    if (this.scrollY<-2){
+                    if (this.scrollY===-2){
                         this.scrollY = -.02
                     }else {
-                        this.scrollY -= 0.2
+                        this.scrollY=  -2
                     }
 
                 },500)

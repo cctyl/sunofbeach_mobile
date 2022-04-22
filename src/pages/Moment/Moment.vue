@@ -381,7 +381,7 @@
              * 可以不写内容，但似乎不能没有
              */
             tagScrollToCbk() {
-                console.log("scrollToCbk")
+                console.log("tagScrollToCbk")
             },
 
             /**
@@ -608,11 +608,23 @@
 
                 if (topicItem){
 
-                    //找到这个元素，触发他的点击事件
-                    this.$refs['tagScroll' + topicIndex][0].click()
+                    //拿到这个话题对应的tag元素
+                    let clickTagItem= this.$refs['tagScroll' + topicIndex][0]
 
-                    //滚动到标签所在的位置
-                    this.tagScrollY = -this.$refs['tagScroll' + topicIndex][0].getBoundingClientRect().left+40
+                    //触发他的点击事件
+                    clickTagItem.click()
+
+                    //拿到该tag距离页面左边的位置，滚动到该标签所在的位置
+                    // +40是为了让标签稍微偏中间
+                    this.tagScrollY = -clickTagItem.getBoundingClientRect().left+40
+
+                    //同时，让竖直方向的页面也滚动回顶部
+                    if (this.momentListScrollY===-1){
+                        this.momentListScrollY = this.momentListScrollY+0.1
+                    }else {
+                        this.momentListScrollY =-1
+                    }
+
                 }
 
             },

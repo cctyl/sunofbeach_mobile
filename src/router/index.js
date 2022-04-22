@@ -13,6 +13,7 @@ import Message from "../pages/Message/Message";
 import Moment from "../pages/Moment/Moment";
 
 const router = new VueRouter({
+    mode: 'history',
     routes: [
         {
             path: '/',
