@@ -5,6 +5,8 @@ import store from './store'
 import axios from "axios";
 
 axios.defaults.withCredentials = true; //配置为true
+
+axios.defaults.timeout = 8 * 1000;
 //配置axios的拦截器
 //请求拦截器
 axios.interceptors.request.use(function (request) {

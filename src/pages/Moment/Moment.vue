@@ -221,7 +221,10 @@
                                 <div class="avatar">
                                     <img v-lazy="{
                                         src:item.avatar,
-                                        loading:require('../../assets/img/loading.png')}"
+                                        loading:require('../../assets/img/loading.png'),
+                                        error:require('../../assets/img/loadError.png')
+
+                                    }"
                                          alt="">
                                 </div>
                                 <div class="userinfo">
@@ -327,30 +330,32 @@
                 let hotTopicResult = await api.getMoyuHotTopic()
                 let allTopicList = allTopicResult.data
 
+                console.log(hotTopicResult)
+                console.log(allTopicList)
 
-                //从allTopicList中找到hotTopicList的数据
-                //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
-                let hotTopicIds = hotTopicResult.data.map(currentValue => currentValue.id)
-
-
-                //在allTopicList中的hotTopic
-                let hotInAll = []
-
-                //去除了hotTopic的剩余topic
-                let hotNotInAll = []
-
-                //分类
-                allTopicList.forEach(item => {
-                    if (hotTopicIds.includes(item.id)) {
-                        hotInAll.push(item)
-                    } else {
-                        hotNotInAll.push(item)
-                    }
-                })
-
-                //将hotInAll插入到hotNotInAll前面
-                this.categoryList = hotInAll.concat(hotNotInAll)
-
+                // //从allTopicList中找到hotTopicList的数据
+                // //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
+                // let hotTopicIds = hotTopicResult.data.map(currentValue => currentValue.id)
+                //
+                //
+                // //在allTopicList中的hotTopic
+                // let hotInAll = []
+                //
+                // //去除了hotTopic的剩余topic
+                // let hotNotInAll = []
+                //
+                // //分类
+                // allTopicList.forEach(item => {
+                //     if (hotTopicIds.includes(item.id)) {
+                //         hotInAll.push(item)
+                //     } else {
+                //         hotNotInAll.push(item)
+                //     }
+                // })
+                //
+                // //将hotInAll插入到hotNotInAll前面
+                // this.categoryList = hotInAll.concat(hotNotInAll)
+                //
 
             },
 
@@ -456,6 +461,11 @@
              * @param userIdList
              */
             idIsContainMe(userIdList){
+
+                if (!this.isLogin()){
+                    return false
+                }
+
                 if (userIdList.includes(this.$store.state.userInfo.id)){
                    return true
                 }

@@ -365,7 +365,7 @@
         text-align: center;
         height: 26px;
         line-height: 36px;
-        font-size: 19px;
+        font-size: 1.2rem;
         color: #37f;
         margin: 0px 7px;
     }
@@ -373,8 +373,11 @@
     .loginText {
         height: 26px;
         line-height: 36px;
+        width: 2rem;
+    }
 
-
+    .loginText span{
+        width: 2rem;
     }
 
     .loginText, .userinfo {
@@ -429,15 +432,13 @@
     }
 
     .search {
-        width: 220px;
+        width: 12.5rem;
     }
 
     .side {
         padding: 0 4px;
         align-self: center;
         white-space: nowrap;
-
-
     }
 
     .side .nav-title {
