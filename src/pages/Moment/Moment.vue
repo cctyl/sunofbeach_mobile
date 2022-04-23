@@ -233,13 +233,7 @@
 
                             <div class="header">
                                 <div class="avatar">
-                                    <!--<img v-lazy="{
-                                        src:item.avatar,
-                                        loading:require('../../assets/img/loading.png'),
-                                        error:require('../../assets/img/loadError.png')
 
-                                    }"
-                                         alt="">-->
                                     <img :src="item.avatar" alt="">
                                 </div>
                                 <div class="userinfo">
@@ -325,10 +319,6 @@
 
         </template>
 
-        <!--弹出层-大图展示-->
-        <nut-popup :style="{ width: '100vw', height:'100vh'}" v-model="bigImgShow">
-            <img class="big-img" :src="bigImgUrl" alt="">
-        </nut-popup>
 
     </div>
 </template>
@@ -355,8 +345,6 @@
                 imgList: [],//emoji图片列表
                 momentList: [],//动态列表
                 toast: {},//提示框对象
-                bigImgShow: false,//大图展示开关
-                bigImgUrl: '',//大图链接
                 scrollTo:0,//标签跳转值
             }
         },
@@ -569,7 +557,9 @@
 
             /**
              * 查看大图
-             * @param url
+             * @param images 图片url数组
+             * @param index  点击的图片在数组中的下标
+             *
              */
             showBigImg(images, index) {
                 this.$imageTouch(
@@ -601,7 +591,7 @@
                     }
                 })
 
-                if (topicItem){
+                if (topicItem.length>0){
 
                     //拿到这个话题对应的tag元素
                     let clickTagItem= this.$refs['tagScroll' + topicIndex][0]
