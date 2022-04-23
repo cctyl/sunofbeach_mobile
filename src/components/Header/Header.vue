@@ -253,7 +253,7 @@
 
         },
         watch: {
-            userInfo(newVal, oldVal) {
+            userInfo() {
                 //用户信息发送变化
                 if (this.userInfo) {
                     //重新获取消息

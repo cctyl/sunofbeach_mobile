@@ -203,7 +203,7 @@
                      :ref="'tagScroll'+index"
                      :class="{tagCurrent: currentTag==index}"
                      v-for="(item,index) in categoryList" :key="item.id"
-                     @click="changeTag(index,item)"
+                     @click="changeTag(index,item.id)"
                 >
                     <span class="tagTitle">{{item.topicName}}</span>
                 </div>
