@@ -188,7 +188,9 @@
                 <li class="mitem" @click.stop="readAll">全部已读
                     <!--<i class="iconfont icon-qingchu"></i>-->
                 </li>
+                <li class="mitem" @click.stop="logout">退出登录
 
+                </li>
             </ul>
 
         </div>
@@ -252,10 +254,6 @@
         },
         watch: {
             userInfo(newVal, oldVal) {
-                console.log('watch userInfo')
-                console.log("new:" + JSON.stringify(newVal))
-                console.log("old:" + oldVal)
-
                 //用户信息发送变化
                 if (this.userInfo) {
                     //重新获取消息
@@ -367,6 +365,20 @@
                     path: '/message',
                     query: {type}
                 })
+            },
+
+
+            /**
+             * 退出登录
+             */
+            logout(){
+                //清除token
+                localStorage.setItem("sob_token", '')
+
+                //清除vuex中的数据
+                this.$store.dispatch('removeUserInfo')
+
+                this.$notify.success("退出登录成功！")
             },
 
         }

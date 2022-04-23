@@ -63,7 +63,14 @@ export default {
         context.commit('SET_NAV_LIST_SHOW', value)
     },
 
-
+    /**
+     * 清除用户数据
+     * @param context
+     * @param value
+     */
+    removeUserInfo(context){
+        context.commit('SET_USER_INFO', null)
+    },
 
 
 
