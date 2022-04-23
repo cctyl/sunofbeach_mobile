@@ -17,14 +17,14 @@
             </div>
 
             <ul class="nav-list" v-show="navListShow">
-                <li class="nav-item" @click="toPage('/home','首页')">
+                <li class="nav-item" @click="toPage('/home')">
                     <a :class="{'nav-active': $route.path==='/home'|| $route.path==='/'}"
                     >首页</a>
                 </li>
 
 
 
-                <li class="nav-item"  @click="toPage('/moment','摸鱼')">
+                <li class="nav-item"  @click="toPage('/moment')">
                     <a
                             :class="{'nav-active': $route.path==='/moment' }"
                     >摸鱼</a>

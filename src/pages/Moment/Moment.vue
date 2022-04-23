@@ -408,9 +408,6 @@
 
                 let allTopicList = allTopicResult.data
 
-                console.log(hotTopicResult)
-                console.log(allTopicResult)
-
                 //从allTopicList中找到hotTopicList的数据
                 //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
                 let hotTopicIds = hotTopicResult.data.map(currentValue => currentValue.id)
@@ -514,7 +511,6 @@
              * 下拉刷新
              */
             pulldown() {
-                console.log("下拉")
                 this.isLoading = true
                 this.getMoYuList(this.currentTagId, 1, false)
 
