@@ -192,6 +192,14 @@
                 </div>
 
                 <div slot="list" class="tagItem nut-hor-list-item "
+                     v-if="$store.state.userInfo"
+                     :class="{tagCurrent: currentTag==-2}"
+                     @click="changeTag(-2,'follow')"
+                >
+                    <span class="tagTitle">关注</span>
+                </div>
+
+                <div slot="list" class="tagItem nut-hor-list-item "
                      :ref="'tagScroll'+index"
                      :class="{tagCurrent: currentTag==index}"
                      v-for="(item,index) in categoryList" :key="item.id"
@@ -221,8 +229,7 @@
                 <div slot="list" class="moment-list">
 
 
-                    <div v-for="item in momentList" :key="item.id">
-                        <li class="moment-item">
+                        <li class="moment-item"  v-for="item in momentList" :key="item.id">
 
                             <div class="header">
                                 <div class="avatar">
@@ -311,7 +318,6 @@
                             </div>
                         </li>
                         <div class="line"></div>
-                    </div>
                 </div>
 
 
@@ -399,9 +405,11 @@
             async getMomentTopicList() {
                 let allTopicResult = await api.getMoyuAllTopic()
                 let hotTopicResult = await api.getMoyuHotTopic()
+
                 let allTopicList = allTopicResult.data
 
-
+                console.log(hotTopicResult)
+                console.log(allTopicResult)
 
                 //从allTopicList中找到hotTopicList的数据
                 //为什么要这么做呢，是因为hotTopicList中数据格式和allTopicList中数据格式不一致
@@ -532,19 +540,9 @@
              * 切换标签页的回调
              * @param tagIndex
              */
-            changeTag(tagIndex, tagItem) {
+            changeTag(tagIndex, tagId) {
                 this.currentTag = tagIndex
-
-                //如果不是推荐页，那么这个tagItem是有值的
-                if (tagItem) {
-                    this.currentTagId = tagItem.id
-
-
-                } else {
-                    //如果是推荐页，那么将currentTagId置为recommend
-                    this.currentTagId = 'recommend'
-                }
-
+                this.currentTagId = tagId
                 this.getMoYuList(this.currentTagId, 1, false)
             },
 
@@ -898,3 +896,4 @@
         max-height: 100vh;
     }
 </style>
+
