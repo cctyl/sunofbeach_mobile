@@ -86,7 +86,6 @@
         data() {
             return {
                 captchaUrl: 'https://api.sunofbeaches.com/uc/ut/captcha?code=',
-
                 randomCode: '',
                 loginFrom: {
                     phone: '', //手机号

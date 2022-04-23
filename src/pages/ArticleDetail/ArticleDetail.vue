@@ -679,8 +679,6 @@
                         content: this.commentStr
                     }
 
-                    console.log( this.subCommentInfo)
-                    console.log(data)
 
                     let result = await api.addArticleSubComment(data)
                     if (result.code===10000){

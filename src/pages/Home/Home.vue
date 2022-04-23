@@ -340,10 +340,8 @@
                 let result = null
                 //如果有categoryId，说明获取的是标签数据，如果没有，那获取的就是推荐页面的数据
                 if (this.currentTagId) {
-                    console.log('获取文章数据，不是推荐页，id为：' + this.currentTagId)
                     result = await api.getArticleListByCategoryId(this.currentTagId, page)
                 } else {
-                    console.log('获取文章数据，是推荐页，id为：' + this.currentTagId)
 
                     result = await api.getRecommendArticleList(page)
 
@@ -476,18 +474,15 @@
              * @param tagIndex
              */
             changeTag(tagIndex, tagItem) {
-                console.log('切换了页面')
                 this.currentTag = tagIndex
 
 
                 //如果不是推荐页，那么这个tagItem是有值的
                 if (tagItem) {
-                    console.log('不是推荐页，是' + tagItem.categoryName)
                     this.currentTagId = tagItem.id
 
 
                 } else {
-                    console.log('是推荐页')
 
                     //如果是推荐页，那么将currentTagId置为null
                     this.currentTagId = null

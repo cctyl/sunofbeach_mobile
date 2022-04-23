@@ -23,8 +23,7 @@
                 </li>
 
 
-
-                <li class="nav-item"  @click="toPage('/moment')">
+                <li class="nav-item" @click="toPage('/moment')">
                     <a
                             :class="{'nav-active': $route.path==='/moment' }"
                     >摸鱼</a>
@@ -126,7 +125,7 @@
 
             </nut-badge>
 
-            <ul class="message-box" v-if="msgBoxShow" >
+            <ul class="message-box" v-if="msgBoxShow">
 
 
                 <nut-badge
@@ -199,7 +198,7 @@
 </template>
 
 <script>
-    import {mapState,mapActions} from 'vuex'
+    import {mapState, mapActions} from 'vuex'
     import api from "../../api/index"
 
     export default {
@@ -217,14 +216,13 @@
                     thumbUpMsgCount: 0,
                     wendaMsgCount: 0
                 },
-                timer:{},//刷新消息的定时器对象
-
+                timer: {},//刷新消息的定时器对象
 
 
             }
         },
         computed: {
-            ...mapState(['userInfo','msgBoxShow','navListShow']),
+            ...mapState(['userInfo', 'msgBoxShow', 'navListShow']),
 
             /**
              *计算是否有新消息
@@ -244,19 +242,30 @@
 
             this.getMsgCount()
             clearInterval(this.timer)
-            this.timer = setInterval(()=>{
-                if (this.$store.state.userInfo){
+            this.timer = setInterval(() => {
+                if (this.$store.state.userInfo) {
                     this.getMsgCount()
-                    console.log("更新一次消息")
                 }
 
-            },10000)
+            }, 10000)
 
         },
+        watch: {
+            userInfo(newVal, oldVal) {
+                console.log('watch userInfo')
+                console.log("new:" + JSON.stringify(newVal))
+                console.log("old:" + oldVal)
 
+                //用户信息发送变化
+                if (this.userInfo) {
+                    //重新获取消息
+                    this.getMsgCount()
+                }
+            },
+        },
         methods: {
 
-            ...mapActions(['setMsgBoxShow','setNavListShow']),
+            ...mapActions(['setMsgBoxShow', 'setNavListShow']),
 
             /**
              * 跳转到首页
@@ -287,14 +296,13 @@
              * @param url 页面路径
              * @param navText 导航按钮文字
              */
-            toPage(url){
+            toPage(url) {
                 //已在此页面，不跳转
                 this.setNavListShow(false)
-                if (this.$route.path === url){
+                if (this.$route.path === url) {
                     return
                 }
                 this.$router.push(url)
-
 
             },
 
@@ -302,7 +310,13 @@
              * 展示或关闭消息盒子
              */
             showMsgBox() {
-               this.setMsgBoxShow(true)
+                //如果已经打开，那就关闭
+                if (this.msgBoxShow === true) {
+                    this.setMsgBoxShow(false)
+                }else {
+                    this.setMsgBoxShow(true)
+                }
+
             },
 
 
@@ -385,7 +399,7 @@
         width: 2rem;
     }
 
-    .loginText span{
+    .loginText span {
         width: 2rem;
     }
 
@@ -470,9 +484,11 @@
 
 
     }
-    .side .nav-list,.show{
+
+    .side .nav-list, .show {
         display: block;
     }
+
     .side .nav-list .nav-item {
         display: flex;
         flex-direction: row;

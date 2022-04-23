@@ -589,7 +589,6 @@
             clickToTopic(topicId){
 
                 //找到话题
-                console.log(topicId)
 
                 let topicIndex = 0
                 let topicItem = this.categoryList.filter((value,index) => {

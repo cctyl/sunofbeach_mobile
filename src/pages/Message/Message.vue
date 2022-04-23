@@ -340,7 +340,6 @@
 
 
                 }
-                console.log(result)
                 //取出评论列表
                 let msgList = result.data.content
 

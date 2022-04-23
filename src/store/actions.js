@@ -36,7 +36,6 @@ export default {
         } else {
             //没超时，正常存储
             let userInfo = checkTokenResult.data
-            console.log('未超时')
             //commit
             context.commit('SET_USER_INFO', userInfo)
         }
