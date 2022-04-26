@@ -3,177 +3,177 @@
         <!--骨架屏-->
         <div v-if="isSkeletonLoading" class="vue-skeleton-loading">
             <div class="skeleton-bac-animation"></div>
-           <div>
-               <row padding="2px 20px 2px">
-                   <skeleton-square
-                           width="355px"
-                           height="20px"
-                   ></skeleton-square>
+            <div>
+                <row padding="2px 20px 2px">
+                    <skeleton-square
+                            width="355px"
+                            height="20px"
+                    ></skeleton-square>
 
-               </row>
+                </row>
 
-               <row slot="list" padding="15px 20px 0">
+                <row slot="list" padding="15px 20px 0">
 
-                   <skeleton-square
-                           width="50px"
-                           height="50px"
-                   >
-                   </skeleton-square>
+                    <skeleton-square
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
 
-                   <column>
-                       <skeleton-square
-                               width="100px"
-                               :count="1"
-                               margin="5px 10px 5px"
-                               height="20px"
-                       ></skeleton-square>
-                       <skeleton-square
-                               width="140px"
-                               :count="1"
-                               margin="5px 10px 5px"
-                               height="20px"
-                       ></skeleton-square>
-                   </column>
+                    <column>
+                        <skeleton-square
+                                width="100px"
+                                :count="1"
+                                margin="5px 10px 5px"
+                                height="20px"
+                        ></skeleton-square>
+                        <skeleton-square
+                                width="140px"
+                                :count="1"
+                                margin="5px 10px 5px"
+                                height="20px"
+                        ></skeleton-square>
+                    </column>
 
-               </row>
+                </row>
 
-               <row slot="list" padding="15px 10px 0">
-
-
-                   <skeleton-square
-                           width="350px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="100px"
-                   ></skeleton-square>
-
-               </row>
-
-               <row slot="list" padding="2px 10px 0">
+                <row slot="list" padding="15px 10px 0">
 
 
-                   <skeleton-square
-                           width="165px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="20px"
-                   ></skeleton-square>
-                   <skeleton-square
-                           width="160px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="20px"
-                   ></skeleton-square>
-               </row>
+                    <skeleton-square
+                            width="350px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="100px"
+                    ></skeleton-square>
 
-               <row slot="list" padding="15px 20px 0">
+                </row>
 
-                   <skeleton-square
-                           width="50px"
-                           height="50px"
-                   >
-                   </skeleton-square>
-
-                   <column>
-                       <skeleton-square
-                               width="100px"
-                               :count="1"
-                               margin="5px 10px 5px"
-                               height="20px"
-                       ></skeleton-square>
-                       <skeleton-square
-                               width="140px"
-                               :count="1"
-                               margin="5px 10px 5px"
-                               height="20px"
-                       ></skeleton-square>
-                   </column>
-
-               </row>
-
-               <row slot="list" padding="15px 10px 0">
+                <row slot="list" padding="2px 10px 0">
 
 
-                   <skeleton-square
-                           width="350px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="100px"
-                   ></skeleton-square>
+                    <skeleton-square
+                            width="165px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="20px"
+                    ></skeleton-square>
+                    <skeleton-square
+                            width="160px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="20px"
+                    ></skeleton-square>
+                </row>
 
-               </row>
+                <row slot="list" padding="15px 20px 0">
 
-               <row slot="list" padding="2px 10px 0">
+                    <skeleton-square
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
 
+                    <column>
+                        <skeleton-square
+                                width="100px"
+                                :count="1"
+                                margin="5px 10px 5px"
+                                height="20px"
+                        ></skeleton-square>
+                        <skeleton-square
+                                width="140px"
+                                :count="1"
+                                margin="5px 10px 5px"
+                                height="20px"
+                        ></skeleton-square>
+                    </column>
 
-                   <skeleton-square
-                           width="165px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="20px"
-                   ></skeleton-square>
-                   <skeleton-square
-                           width="160px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="20px"
-                   ></skeleton-square>
-               </row>
+                </row>
 
-               <row slot="list" padding="15px 20px 0">
-
-                   <skeleton-square
-                           width="50px"
-                           height="50px"
-                   >
-                   </skeleton-square>
-
-                   <column>
-                       <skeleton-square
-                               width="100px"
-                               :count="1"
-                               margin="5px 10px 5px"
-                               height="20px"
-                       ></skeleton-square>
-                       <skeleton-square
-                               width="140px"
-                               :count="1"
-                               margin="5px 10px 5px"
-                               height="20px"
-                       ></skeleton-square>
-                   </column>
-
-               </row>
-
-               <row slot="list" padding="15px 10px 0">
+                <row slot="list" padding="15px 10px 0">
 
 
-                   <skeleton-square
-                           width="350px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="100px"
-                   ></skeleton-square>
+                    <skeleton-square
+                            width="350px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="100px"
+                    ></skeleton-square>
 
-               </row>
+                </row>
 
-               <row slot="list" padding="2px 10px 0">
+                <row slot="list" padding="2px 10px 0">
 
 
-                   <skeleton-square
-                           width="165px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="20px"
-                   ></skeleton-square>
-                   <skeleton-square
-                           width="160px"
-                           :count="1"
-                           margin="5px 10px 5px"
-                           height="20px"
-                   ></skeleton-square>
-               </row>
-           </div>
+                    <skeleton-square
+                            width="165px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="20px"
+                    ></skeleton-square>
+                    <skeleton-square
+                            width="160px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="20px"
+                    ></skeleton-square>
+                </row>
+
+                <row slot="list" padding="15px 20px 0">
+
+                    <skeleton-square
+                            width="50px"
+                            height="50px"
+                    >
+                    </skeleton-square>
+
+                    <column>
+                        <skeleton-square
+                                width="100px"
+                                :count="1"
+                                margin="5px 10px 5px"
+                                height="20px"
+                        ></skeleton-square>
+                        <skeleton-square
+                                width="140px"
+                                :count="1"
+                                margin="5px 10px 5px"
+                                height="20px"
+                        ></skeleton-square>
+                    </column>
+
+                </row>
+
+                <row slot="list" padding="15px 10px 0">
+
+
+                    <skeleton-square
+                            width="350px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="100px"
+                    ></skeleton-square>
+
+                </row>
+
+                <row slot="list" padding="2px 10px 0">
+
+
+                    <skeleton-square
+                            width="165px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="20px"
+                    ></skeleton-square>
+                    <skeleton-square
+                            width="160px"
+                            :count="1"
+                            margin="5px 10px 5px"
+                            height="20px"
+                    ></skeleton-square>
+                </row>
+            </div>
 
 
         </div>
@@ -228,8 +228,9 @@
             >
                 <div slot="list" class="moment-list">
 
+                    <div v-for="item in momentList" :key="item.id">
 
-                        <li class="moment-item"  v-for="item in momentList" :key="item.id">
+                        <li class="moment-item" >
 
                             <div class="header">
                                 <div class="avatar">
@@ -294,7 +295,7 @@
                                 </div>
 
 
-                                <div class="topic" v-if="item.topicName" @click="clickToTopic(item.topicId)" >
+                                <div class="topic" v-if="item.topicName" @click="clickToTopic(item.topicId)">
                                     <i class="iconfont icon-topic">{{item.topicName}}</i>
                                 </div>
 
@@ -303,15 +304,20 @@
 
 
                                 <i class="action-btn iconfont icon-dianzan"
-                                   :class="{active:item.thumbUpActive}"><span style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
+                                   :class="{active:item.thumbUpActive}"><span
+                                        style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
 
                                 <i class="action-btn iconfont icon-pinglunxiao">
                                     <span style="padding: 0px 5px">{{item.commentCount}}</span>
                                 </i>
                                 <i class="action-btn iconfont icon-fenxiang1"></i>
                             </div>
+
+
                         </li>
                         <div class="line"></div>
+                    </div>
+
                 </div>
 
 
@@ -345,7 +351,7 @@
                 imgList: [],//emoji图片列表
                 momentList: [],//动态列表
                 toast: {},//提示框对象
-                scrollTo:0,//标签跳转值
+                scrollTo: 0,//标签跳转值
             }
         },
         // created() {
@@ -438,13 +444,12 @@
                 for (let i = 0; i < sourceList.length; i++) {
 
 
-
                     let item = sourceList[i]
 
 
                     //屏蔽部分用户
-                    if (item.userId==='1256120724666454016'){
-                        sourceList.splice(i,1)
+                    if (item.userId === '1256120724666454016') {
+                        sourceList.splice(i, 1)
                         continue
                     }
 
@@ -519,7 +524,6 @@
             },
 
 
-
             /**
              * 切换标签页的回调
              * @param tagIndex
@@ -576,38 +580,38 @@
              * 点击话题，跳转到该话题的标签下
              * @param topicId
              */
-            clickToTopic(topicId){
+            clickToTopic(topicId) {
 
                 //找到话题
 
                 let topicIndex = 0
-                let topicItem = this.categoryList.filter((value,index) => {
-                    if (value.id===topicId){
+                let topicItem = this.categoryList.filter((value, index) => {
+                    if (value.id === topicId) {
 
                         topicIndex = index
                         return true
-                    }else {
+                    } else {
                         return false
                     }
                 })
 
-                if (topicItem.length>0){
+                if (topicItem.length > 0) {
 
                     //拿到这个话题对应的tag元素
-                    let clickTagItem= this.$refs['tagScroll' + topicIndex][0]
+                    let clickTagItem = this.$refs['tagScroll' + topicIndex][0]
 
                     //触发他的点击事件
                     clickTagItem.click()
 
                     //拿到该tag距离页面左边的位置，滚动到该标签所在的位置
                     // +40是为了让标签稍微偏中间
-                    this.tagScrollY = -clickTagItem.getBoundingClientRect().left+40
+                    this.tagScrollY = -clickTagItem.getBoundingClientRect().left + 40
 
                     //同时，让竖直方向的页面也滚动回顶部
-                    if (this.momentListScrollY===-1){
-                        this.momentListScrollY = this.momentListScrollY+0.1
-                    }else {
-                        this.momentListScrollY =-1
+                    if (this.momentListScrollY === -1) {
+                        this.momentListScrollY = this.momentListScrollY + 0.1
+                    } else {
+                        this.momentListScrollY = -1
                     }
 
                 }
@@ -662,14 +666,15 @@
         font-size: 12px;
         background: #fff;
     }
+
     .vue-skeleton-loading .skeleton-bac-animation {
         position: absolute;
         z-index: auto;
         width: 100%;
         height: 100%;
-        background: -webkit-gradient(linear,left top,right top,from(hsla(0,0%,100%,0)),color-stop(50%,hsla(0,0%,100%,.5)),color-stop(80%,hsla(0,0%,100%,0)));
-        background: -o-linear-gradient(left,hsla(0,0%,100%,0),hsla(0,0%,100%,.5) 50%,hsla(0,0%,100%,0) 80%);
-        background: linear-gradient(90deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.5) 50%,hsla(0,0%,100%,0) 80%);
+        background: -webkit-gradient(linear, left top, right top, from(hsla(0, 0%, 100%, 0)), color-stop(50%, hsla(0, 0%, 100%, .5)), color-stop(80%, hsla(0, 0%, 100%, 0)));
+        background: -o-linear-gradient(left, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, .5) 50%, hsla(0, 0%, 100%, 0) 80%);
+        background: linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, .5) 50%, hsla(0, 0%, 100%, 0) 80%);
         background-size: 30% 100%;
         background-repeat: no-repeat;
         -webkit-animation: backpos .9s ease-in-out 0s infinite;
@@ -680,7 +685,7 @@
     .line {
         background-color: #f4f5f5;
         width: 100%;
-        height: 8px;
+        height: 10px;
     }
 
     /*---------------动态详情 ---------------*/
@@ -855,6 +860,7 @@
         display: flex;
         height: 36px;
         border-top: 1px solid #e4e6eb;
+        margin-top: 10px;
     }
 
     .moment-item .action .action-btn {
