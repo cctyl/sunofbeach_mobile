@@ -230,7 +230,7 @@
 
                     <div v-for="item in momentList" :key="item.id">
 
-                        <li class="moment-item" >
+                        <li class="moment-item">
 
                             <div class="header">
                                 <div class="avatar">
@@ -302,15 +302,156 @@
                             </div>
                             <div class="action">
 
-
                                 <i class="action-btn iconfont icon-dianzan"
-                                   :class="{active:item.thumbUpActive}"><span
-                                        style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
+                                   :class="{active:item.thumbUpActive}"
+                                   @click="thumbUpMoment(item)"
+                                >
+                                    <span style="padding: 0px 5px">{{item.thumbUpCount}}</span></i>
 
-                                <i class="action-btn iconfont icon-pinglunxiao">
+                                <i class="action-btn iconfont icon-pinglunxiao" @click="openCommontList(item)">
                                     <span style="padding: 0px 5px">{{item.commentCount}}</span>
                                 </i>
                                 <i class="action-btn iconfont icon-fenxiang1"></i>
+
+                            </div>
+                            <!--评论列表-->
+                            <div v-if="item.showCommont" class="reviewList" >
+                                <div class="commentInput">
+                                    <!--评论填写框-->
+                                    <nut-textbox
+                                            class="inputBox"
+                                            v-model="item.commentStr"
+                                            :max-num="300"
+                                            :txt-area-h="80"
+                                    ></nut-textbox>
+                                    <button  disabled="disabled" class="submit-btn">发表评论</button>
+                                </div>
+                                <div class="reviewItem" v-for="currentComment in item.commentList" :key="currentComment.id">
+                                    <!--评论人头像-->
+                                    <div class="left">
+                                        <img :src="currentComment.avatar">
+                                    </div>
+
+                                    <div class="reviewRight">
+                                        <!--评论人信息，点赞-->
+                                        <div class="top">
+                                            <span class="reviewNikename">{{currentComment.nickname}}</span>
+                                            <span >{{currentComment.createTime}}</span>
+                                        </div>
+                                        <!--评论内容-->
+                                        <div class="reviewBottom">{{currentComment.content}}</div>
+
+                                        <!--回复评论的按钮-->
+                                        <div class="comment-btn">
+                                           <!--
+                                           todo
+                                           <span
+                                                @click="openCommentPanel(true,item)"
+                                             >回复</span>-->
+                                            <span>回复</span>
+                                        </div>
+
+                                        <!--下面的子评论-->
+                                        <!--只有一条回复就直接展示-->
+                                        <div class="subcommentBox" v-if="currentComment.subComments.length===1">
+                                            <div class="subcomment">
+                                                <!--评论人头像-->
+                                                <div class="subleft">
+                                                    <img :src="currentComment.subComments[0].avatar">
+                                                </div>
+
+                                                <div class="subreviewRight">
+                                                    <!--评论人信息，点赞-->
+                                                    <div class="subtop">
+                                                        <span class="subreviewNikename">{{currentComment.subComments[0].nickname}}</span>
+                                                        <span >{{currentComment.subComments[0].createTime}}</span>
+                                                    </div>
+                                                    <!--评论内容-->
+                                                    <p class="subreviewBottom">
+                                                        {{currentComment.subComments[0].nickname? '回复 '+currentComment.nickname+':':'' }}
+                                                        {{currentComment.subComments[0].content}}
+                                                    </p>
+                                                    <!--回复评论的按钮-->
+                                                    <div class="comment-btn">
+                                                        <!--todo-->
+                                                        <!--<span @click="openCommentPanel(true,item.subComments[0])">回复</span>-->
+                                                        <span>回复</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!--有一条以上，但是没有做展开，就只显示一条，并添加展开按钮-->
+                                        <div class="subcommentBox" v-if="currentComment.subComments.length>1 && !currentComment.showMore">
+                                            <div class="subcomment">
+                                                <!--评论人头像-->
+                                                <div class="subleft">
+                                                    <img :src="currentComment.subComments[0].avatar">
+                                                </div>
+
+                                                <div class="subreviewRight">
+                                                    <!--评论人信息，点赞-->
+                                                    <div class="subtop">
+                                                        <span class="subreviewNikename">{{currentComment.subComments[0].nickname}}</span>
+                                                        <span >{{currentComment.subComments[0].createTime}}</span>
+                                                    </div>
+                                                    <!--评论内容-->
+                                                    <p class="subreviewBottom">
+                                                        {{currentComment.subComments[0].nickname? '回复 '+currentComment.subComments[0].nickname+':':'' }}
+                                                        {{currentComment.subComments[0].content}}
+                                                    </p>
+                                                    <!--回复评论的按钮-->
+                                                    <div class="comment-btn">
+                                                        <!--todo-->
+                                                        <!--<span @click="openCommentPanel(true,item.subComments[0])">回复</span>-->
+                                                        <span>回复</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--这里直接就给当前评论加上一个showMore属性，用来标记是否展示更多评论-->
+                                            <span class="sub-see-more" @click="currentComment.showMore=true">点击查看更多({{currentComment.subComments.length-1}})</span>
+                                        </div>
+
+                                        <!--有一条以上，并点击了展开按钮，就显示全部-->
+                                        <div class="subcommentBox" v-if="currentComment.subComments.length>1 && currentComment.showMore">
+                                            <div class="subcomment" v-for="subitem in currentComment.subComments" :key="subitem.id">
+                                                <!--评论人头像-->
+                                                <div class="subleft">
+                                                    <img :src="subitem.avatar">
+                                                </div>
+
+                                                <div class="subreviewRight">
+                                                    <!--评论人信息，点赞-->
+                                                    <div class="subtop">
+                                                        <span class="subreviewNikename">{{subitem.nickname}}</span>
+                                                        <span >{{subitem.createTime}}</span>
+                                                    </div>
+                                                    <!--评论内容-->
+                                                    <p class="subreviewBottom">
+                                                        {{subitem.nickname? '回复 '+subitem.nickname+':':'' }}
+                                                        {{subitem.content}}
+                                                    </p>
+                                                    <!--回复评论的按钮-->
+                                                    <div class="comment-btn">
+                                                        <span  >回复</span>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!--这里直接就给当前评论加上一个showMore属性，用来标记是否展示更多评论-->
+                                            <span class="sub-see-more" @click="currentComment.showMore=false">收起</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="reviewItem" v-show="item.commentList&&item.commentList.length==0">
+                                    <div class="noComment ">
+                                        <i class="iconfont icon-meiyoushuju"></i>  暂无评论~~
+                                    </div>
+                                </div>
                             </div>
 
 
@@ -332,7 +473,7 @@
 <script>
     import api from '../../api/index'
     import {parseDomain, fromUrl} from "parse-domain";
-
+    import Vue from 'vue'
     export default {
         name: "Moment",
         data() {
@@ -446,6 +587,9 @@
 
                     let item = sourceList[i]
 
+                    //为什么不用原本的thumbUpCount而要覆盖呢？
+                    //因为自带的thumbUpCount字段不准确
+                    item.thumbUpCount = item.thumbUpList.length
 
                     //屏蔽部分用户
                     if (item.userId === '1256120724666454016') {
@@ -618,6 +762,52 @@
 
             },
 
+
+            /**
+             * 动态点赞
+             * @param momentId
+             */
+            async thumbUpMoment(moment) {
+                //这里为什么要调用两次呢？因为sob的bug，只点赞一次接口数据不会更新，必须重复点赞
+                api.momentThumbUp(moment.id)
+                api.momentThumbUp(moment.id)
+
+                //更新点赞数
+                moment.thumbUpCount++
+
+                //更新flag
+                moment.thumbUpActive=true
+            },
+
+            /**
+             * 获取动态的评论信息
+             * @param momentItem
+             * @returns {Promise<void>}
+             */
+            async getMomentCommontList(momentItem){
+                let result = await api.getMoyuCommontList(momentItem.id)
+                //添加一些属性
+                for (let i = 0; i < result.data.list.length; i++) {
+                    //showMore
+                    result.data.list[i].showMore = false;
+                }
+                Vue.set(momentItem,'commentList', result.data.list)
+            },
+
+            /**
+             * 打开评论列表
+             * @param momentItem
+             */
+            openCommontList(momentItem){
+                if (momentItem.showCommont == true){
+                    //注意，必须这么设置才能被vue监听到
+                    Vue.set(momentItem,'showCommont',false)
+                }else {
+                    Vue.set(momentItem,'showCommont',true)
+                    this.getMomentCommontList(momentItem);
+                }
+
+            }
         }
 
     }
@@ -861,6 +1051,7 @@
         height: 36px;
         border-top: 1px solid #e4e6eb;
         margin-top: 10px;
+
     }
 
     .moment-item .action .action-btn {
@@ -878,6 +1069,133 @@
 
     .moment-item .action .active {
         color: #0084ff !important;
+    }
+
+    .reviewList{
+
+    }
+
+    .reviewList .commentInput{
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    }
+    .reviewList .commentInput .inputBox{
+        margin-top: 5px;
+        width: 100%;
+    }
+    .reviewList .commentInput .submit-btn{
+        margin-top: 5px;
+        flex: 0 0 auto;
+        margin-left: auto;
+        width: 92px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 25px;
+        background: #1e80ff;
+        border-radius: 4px;
+        color: #fff;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .reviewItem {
+
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        margin-top: 14px;
+
+    }
+
+    .reviewItem .left {
+        margin-top: 10px;
+        width: 45px;
+
+
+    }
+
+    .reviewItem .left img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+
+    }
+
+    .reviewItem .reviewRight {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .reviewItem .reviewRight .top {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .reviewItem .reviewRight .reviewBottom{
+        margin-top: 10px;
+        line-height: 25px;
+    }
+    .reviewItem .reviewRight .subcommentBox{
+        border-radius: 5%;
+        background: rgba(247,248,250,.7);
+        padding-bottom: 10px;
+        margin-top: 5px;
+    }
+    /*子评论*/
+    .reviewItem .reviewRight .subcomment{
+
+        margin: 15px 0 5px 20px;
+        display: flex;
+        font-size: 11px;
+    }
+
+    .subleft img{
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
+
+    .subreviewRight{
+        flex: 1;
+        margin-left: 5px;
+
+    }
+    .subreviewRight .subtop{
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    .subreviewBottom{
+        margin-top: 5px;
+        line-height: 20px;
+    }
+
+    .sub-see-more{
+        margin-left: 20px;
+        color: #409eff;
+    }
+
+    .noComment{
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+    }
+    .noComment i{
+        font-size: 18px;
+    }
+    .comment-btn{
+        margin-top: 2px;
+    }
+    .reviewRight .comment-btn span{
+
+        float: right;
+        color: #007fff;
+        font-size: 13px;
     }
 
 

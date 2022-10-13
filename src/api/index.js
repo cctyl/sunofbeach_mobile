@@ -463,5 +463,14 @@ export default {
      */
     addArticleSubComment(data) {
         return ajax(`/ct/article/sub-comment`, data, 'POST')
-    }
+    },
+
+    /**
+     * 获取摸鱼评论列表
+     * @param momentId
+     * @returns {Promise<unknown>}
+     */
+    getMoyuCommontList(momentId,page=1) {
+        return ajax(`/ct/moyu/comment/${momentId}/${page}?sort=0`)
+    },
 }
