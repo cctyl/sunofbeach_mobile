@@ -22,6 +22,7 @@
                         maxlength="11"
                         :clearBtn="true"
                         :disabled="false"
+                        autocomplete="new-password"
                 />
 
                 <nut-textinput

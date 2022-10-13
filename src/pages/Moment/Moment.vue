@@ -806,7 +806,6 @@
                     Vue.set(momentItem,'showCommont',true)
                     this.getMomentCommontList(momentItem);
                 }
-
             }
         }
 
