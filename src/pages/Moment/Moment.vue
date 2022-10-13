@@ -823,6 +823,7 @@
                     })
                 }else {
                     console.log("其他链接")
+                    window.location.href=url
                 }
             }
         }
