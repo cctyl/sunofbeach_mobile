@@ -4,6 +4,8 @@
 
 体验地址：http://sob.webapp.52android.cn:8001（域名来自a lonely cat）
 
+源码地址：https://github.com/cctyl/sunofbeach_mobile
+
 这次间隔了约6个月，没有写过前端代码了。这段时间相对比较忙了，没法摸鱼。并且也是专职后端了。css布局等知识都忘得差不多了，磕磕盼盼的续上了这部分代码。
 
 本次主要阐述评论列表展示的编写，给vm._data 中对象新增属性、以及nginx部署刷新404问题的解决。

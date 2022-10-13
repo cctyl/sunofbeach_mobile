@@ -271,7 +271,7 @@
 
                                 <!--分享的链接-->
                                 <div class="link-box" v-if="item.linkUrl">
-                                    <a :href="item.linkUrl">
+                                    <a @click="toArticlePage(item.linkUrl)">
 
                                         <!--如果这个链接有封面-->
                                         <div class="link-cover"
@@ -805,6 +805,24 @@
                 }else {
                     Vue.set(momentItem,'showCommont',true)
                     this.getMomentCommontList(momentItem);
+                }
+            },
+
+            /**
+             * 打开分享的链接
+             * @param url
+             */
+            toArticlePage(url){
+                //如果是主站的文章链接，则跳转到手机端页面查看
+                //https://www.sunofbeach.net/a/1580461941464240130
+                if (url.includes("www.sunofbeach.net/a")){
+                    let articleId = url.substr(url.indexOf("/a/")+3,url.length-1)
+                    this.$router.push({
+                        path: '/detail',
+                        query: {id: articleId}
+                    })
+                }else {
+                    console.log("其他链接")
                 }
             }
         }
