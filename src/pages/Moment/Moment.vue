@@ -252,7 +252,7 @@
                             <div class="middle">
 
                                 <!--动态内容-->
-                                <div class="content" v-html="item.content">
+                                <div class="content" v-text="item.content">
 
                                 </div>
 
