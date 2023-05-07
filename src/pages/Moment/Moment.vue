@@ -174,8 +174,6 @@
                     ></skeleton-square>
                 </row>
             </div>
-
-
         </div>
 
         <template v-else>
@@ -212,9 +210,7 @@
 
             <div class="line"></div>
             <nut-scroller
-
                     ref="mynutscroller"
-
                     :scrollTo="momentListScrollY"
                     type="vertical"
                     class="totalScroll"
@@ -252,7 +248,7 @@
                             <div class="middle">
 
                                 <!--动态内容-->
-                                <div class="content" v-text="item.content">
+                                <div class="content" v-html="item.content">
 
                                 </div>
 
@@ -343,12 +339,7 @@
 
                                         <!--回复评论的按钮-->
                                         <div class="comment-btn">
-                                           <!--
-                                           todo
-                                           <span
-                                                @click="openCommentPanel(true,item)"
-                                             >回复</span>-->
-                                            <span>回复</span>
+                                            <span @click="openCommentPanel(currentComment,4,currentComment.userId,currentComment.nickname,item)">回复</span>
                                         </div>
 
                                         <!--下面的子评论-->
@@ -374,8 +365,11 @@
                                                     <!--回复评论的按钮-->
                                                     <div class="comment-btn">
                                                         <!--todo-->
-                                                        <!--<span @click="openCommentPanel(true,item.subComments[0])">回复</span>-->
-                                                        <span>回复</span>
+                                                        <span @click="openCommentPanel(currentComment,3,
+                                                        currentComment.subComments[0].userId,
+                                                         currentComment.subComments[0].nickname,
+                                                         item
+                                                        )">回复</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -404,8 +398,12 @@
                                                     <!--回复评论的按钮-->
                                                     <div class="comment-btn">
                                                         <!--todo-->
-                                                        <!--<span @click="openCommentPanel(true,item.subComments[0])">回复</span>-->
-                                                        <span>回复</span>
+                                                        <span @click="openCommentPanel(currentComment,
+                                                        2,currentComment.subComments[0].userId,currentComment.subComments[0].nickname,
+                                                        item
+
+                                                        )">回复</span>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -434,7 +432,8 @@
                                                     </p>
                                                     <!--回复评论的按钮-->
                                                     <div class="comment-btn">
-                                                        <span  >回复</span>
+                                                        <!--todo-->
+                                                        <span @click="openCommentPanel(currentComment,1,subitem.userId,subitem.nickname,item)">回复</span>
                                                     </div>
                                                 </div>
 
@@ -460,13 +459,31 @@
                     </div>
 
                 </div>
-
-
             </nut-scroller>
+            <!--弹出层-评论框-->
+            <nut-popup
+                    position="top"
+                    v-model="showCommentPanel"
+            >
 
+                <!--评论填写框-->
+                <nut-textbox
+                        class="comment-input"
+                        v-model="popCommentStr"
+                        :place-text="commentPlaceText"
+                        :max-num="300"
+                        :txt-area-h="80"
+                ></nut-textbox>
+                <nut-button
+                        type="light"
+                        @click="submitComment"
+                        block
+                >
+                    提交
+                </nut-button>
+
+            </nut-popup>
         </template>
-
-
     </div>
 </template>
 
@@ -494,6 +511,13 @@
                 momentList: [],//动态列表
                 toast: {},//提示框对象
                 scrollTo: 0,//标签跳转值
+                commentPlaceText:'说说你的想法吧',//评论回复框中的提示文字
+                showCommentPanel:false,//是否展示评论弹窗
+                popCommentStr:'',//弹出回复框数据绑定
+                popCommentType:0,//评论类型，是一级评论，还是子评论
+                popCommentObj:{},//当前将要回复的评论对象
+                popCommentTargetUserId:0,//将要回复的用户id
+                commentMomentItem:{},//当前正在被评论的摸鱼动态对象
             }
         },
         // created() {
@@ -849,7 +873,59 @@
                 } else {
                     this.$toast.fail('发送失败！' + result.message);
                 }
-            }
+            },
+
+            /**
+             * 展示评论填写框
+             */
+            openCommentPanel(commentObj,type,targetUserId,targetUserName,momentItem){
+                //清空旧数据
+                this.popCommentStr = ""
+                //打开弹出层
+                this.showCommentPanel = true
+                this.popCommentTargetUserId = targetUserId
+                this.commentMomentItem = momentItem
+                this.popCommentObj = commentObj;
+                if (!this.isLogin()) {
+                    return
+                }
+
+                /**
+                 * 4 一级评论
+                 *
+                 */
+                this.popCommentType = type
+                this.commentPlaceText=`回复 @${targetUserName}`
+            },
+
+            /**
+             * 提交评论
+             */
+            async submitComment() {
+
+               let result = await api.sendMoyuSubComment(
+                   this.popCommentStr,
+                   this.popCommentObj.momentId,
+                   this.popCommentTargetUserId,
+                   this.popCommentObj.id
+               )
+                console.log(result)
+
+                if (result.code === 10000) {
+                    this.$notify.success(result.message)
+
+                    //清空评论框
+                    this.popCommentStr = ''
+                    //关闭弹窗
+                    this.showCommentPanel = false
+                    this.popCommentObj={}
+
+                    //更新评论列表
+                    this.getMomentCommontList(this.commentMomentItem);
+                } else {
+                    this.$notify.warn(result.message)
+                }
+            },
         }
 
     }

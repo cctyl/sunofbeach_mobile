@@ -169,15 +169,14 @@ export default {
      * @param commentId
      * @returns {Promise<unknown>}
      */
-    subComment({
+    sendMoyuSubComment(
                    content,
                    momentId,
                    targetUserId,
                    commentId
-               }) {
+               ) {
 
         return ajax(`/ct/moyu/sub-comment`, {
-
             content,
             momentId,
             targetUserId,
