@@ -460,9 +460,14 @@
 
                 </div>
             </nut-scroller>
+
+            <!--发布摸鱼按钮-->
+            <div class="moyu-send-btn" @click="openMoyuPanel">
+                <i class="action-btn iconfont icon-jiahao" ></i>
+            </div>
             <!--弹出层-评论框-->
             <nut-popup
-                    position="top"
+                    position="bottom"
                     v-model="showCommentPanel"
             >
 
@@ -476,7 +481,7 @@
                 ></nut-textbox>
                 <nut-button
                         type="light"
-                        @click="submitComment"
+                        @click="handlePopSubmit"
                         block
                 >
                     提交
@@ -520,19 +525,6 @@
                 commentMomentItem:{},//当前正在被评论的摸鱼动态对象
             }
         },
-        // created() {
-        //     const files = require.context("@/assets/img/emoji", true, /\.*\.jpg|png$/).keys()
-        //     this.imgList = []
-        //     for (let i = 0; i < files.length; i++) {
-        //
-        //         //去掉路径前面的 .  ./img13.png ---> /img13.png
-        //         let currentImgPath = files[i].slice(1)
-        //
-        //         //只传递路劲字符串是无法引用的，必须用require
-        //         this.imgList.push(require("../../assets/img/emoji" + currentImgPath))
-        //
-        //     }
-        // },
         mounted() {
             //展示骨架屏
             this.isSkeletonLoading = true
@@ -879,6 +871,7 @@
              * 展示评论填写框
              */
             openCommentPanel(commentObj,type,targetUserId,targetUserName,momentItem){
+                this.commentPlaceText = '说说你的想法吧'
                 //清空旧数据
                 this.popCommentStr = ""
                 //打开弹出层
@@ -897,28 +890,19 @@
                 this.popCommentType = type
                 this.commentPlaceText=`回复 @${targetUserName}`
             },
-
             /**
-             * 提交评论
+             * 发送摸鱼评论
              */
-            async submitComment() {
-
-               let result = await api.sendMoyuSubComment(
-                   this.popCommentStr,
-                   this.popCommentObj.momentId,
-                   this.popCommentTargetUserId,
-                   this.popCommentObj.id
-               )
-                console.log(result)
+           async sendMoyuComent(){
+                let result = await api.sendMoyuSubComment(
+                    this.popCommentStr,
+                    this.popCommentObj.momentId,
+                    this.popCommentTargetUserId,
+                    this.popCommentObj.id
+                )
 
                 if (result.code === 10000) {
                     this.$notify.success(result.message)
-
-                    //清空评论框
-                    this.popCommentStr = ''
-                    //关闭弹窗
-                    this.showCommentPanel = false
-                    this.popCommentObj={}
 
                     //更新评论列表
                     this.getMomentCommontList(this.commentMomentItem);
@@ -926,6 +910,55 @@
                     this.$notify.warn(result.message)
                 }
             },
+
+            /**
+             * 提交评论
+             */
+            handlePopSubmit() {
+                if (this.popCommentType===5){
+                    //偷懒，使用评论的弹出层
+                    this.sendMoyu();
+                }else {
+                    this.sendMoyuComent();
+                }
+
+                //清空评论框
+                this.popCommentStr = ''
+                //关闭弹窗
+                this.showCommentPanel = false
+                this.popCommentObj={}
+
+            },
+
+
+            /**
+             * 弹出摸鱼发布面板
+             */
+            openMoyuPanel() {
+                this.commentPlaceText = '今日宜摸鱼'
+                this.popCommentType = 5
+                //清空旧数据
+                this.popCommentStr = ""
+                //打开弹出层
+                this.showCommentPanel = true
+                if (!this.isLogin()) {
+                    return
+                }
+            },
+            /**
+             * 发送摸鱼动态
+             */
+           async sendMoyu(){
+                let result = await api.publishMoyu(this.popCommentStr ,'',[])
+                console.log(result)
+                if (result.code === 10000) {
+                    this.$notify.success(result.message)
+                    //刷新动态列表
+                    this.pulldown();
+                } else {
+                    this.$notify.warn(result.message)
+                }
+            }
         }
 
     }
@@ -1321,6 +1354,21 @@
     .big-img {
         max-width: 100vw;
         max-height: 100vh;
+    }
+
+    .moyu-send-btn{
+        position: fixed;
+        right: 7%;
+        bottom: 5%;
+        width: 50px;
+        height: 50px;
+        z-index: 1000;
+        cursor: pointer;
+    }
+
+    .moyu-send-btn .action-btn{
+        font-size: 45px;
+        color: #fb6064;
     }
 </style>
 

@@ -192,11 +192,11 @@ export default {
      * @param images
      * @returns {Promise<unknown>}
      */
-    publishMoyu({
+    publishMoyu(
                     content,
                     topicId,
                     images
-                }) {
+                ) {
         return ajax(`/ct/moyu`, {
             content,
             topicId,
