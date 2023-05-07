@@ -830,6 +830,7 @@
                 if (momentItem.showCommont == true){
                     //注意，必须这么设置才能被vue监听到
                     Vue.set(momentItem,'showCommont',false)
+                    momentItem.commentStr =''
                 }else {
                     Vue.set(momentItem,'showCommont',true)
                     this.getMomentCommontList(momentItem);
@@ -863,8 +864,7 @@
             async sendMoyuComment(momentItem) {
                 console.log("当前的评论内容是：")
                 console.log(momentItem)
-                // let result = await api.sendMoyuComment(momentItem.id, momentItem.commentStr);
-                let result = {success: true}
+                let result = await api.sendMoyuComment(momentItem.id, momentItem.commentStr);
                 if (result.success) {
                     this.$toast.success('操作成功！');
                     momentItem.commentStr = ''
