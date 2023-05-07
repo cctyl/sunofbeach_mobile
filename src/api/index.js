@@ -150,16 +150,6 @@ export default {
         return ajax(`/ct/moyu/hot/${size}`)
     },
 
-    /**
-     * 获得动态的评论
-     * @param momentId
-     * @param page
-     * @param sort
-     * @returns {Promise<unknown>}
-     */
-    getComment(momentId, page, sort) {
-        return ajax(`/ct/moyu/comment/${momentId}/${page}?sort=${sort}`)
-    },
 
     /**
      * 给动态点赞
@@ -170,23 +160,6 @@ export default {
         return ajax(`/ct/moyu/thumb-up/${momentId}`, null, "PUT")
     },
 
-    /**
-     * 给某个动态评论
-     * @param momentId
-     * @param content
-     */
-    comment({
-                momentId,
-                content
-            }) {
-
-        return ajax(`/ct/moyu/comment`, {
-
-            momentId,
-            content
-
-        }, 'POST')
-    },
 
     /**
      * 回复评论
@@ -473,4 +446,20 @@ export default {
     getMoyuCommontList(momentId,page=1) {
         return ajax(`/ct/moyu/comment/${momentId}/${page}?sort=0`)
     },
+
+
+    /**
+     * 评论摸鱼动态
+     * POST /ct/moyu/comment
+     * comment: {
+          momentId: '',
+          content: ''
+        }
+     */
+    sendMoyuComment(momentId,content){
+        return ajax(`/ct/moyu/comment`, {
+            momentId,
+            content
+        }, 'POST')
+    }
 }

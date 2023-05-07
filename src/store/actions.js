@@ -27,7 +27,6 @@ export default {
         let checkTokenResult = await api.checkToken()
 
         //判断cookie是否超时了
-        // {"success":false,"code":11126,"message":"账号未登录","data":null}
         if (!checkTokenResult.success) {
             //提示
             vc.$notify.warn("登录信息已过期，请重新登录")

@@ -21,14 +21,15 @@
                         placeholder="请输入手机号"
                         maxlength="11"
                         :clearBtn="true"
-                        :disabled="false"
-                        autocomplete="new-password"
+                        type="text"
+                        name="username"
+                        autocomplete="username"
                 />
 
                 <nut-textinput
                         placeholder="请输入密码"
                         v-model="loginFrom.password"
-                        type="password"
+                        type="password" name="password" autocomplete="current-password"
                 />
 
                 <nut-row>

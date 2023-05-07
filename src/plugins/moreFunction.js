@@ -77,13 +77,23 @@ export default {
          * @param timeStr
          * @returns {string|*}
          */
-        Vue.prototype.calcTime= function(timeStr) {
+        Vue.prototype.calcTime = function(timeStr) {
             let formatResult = moment(timeStr, "YYYY-MM-DD HH:mm").fromNow()
             if (formatResult=='Invalid date'){
                 return timeStr
             }else {
                 return formatResult
             }
+        }
+
+
+        /**
+         * 获取当前时间，并以 YYYY-MM-DD HH:mm:ss 的格式返回
+         * @param timeStr
+         * @returns {string|*}
+         */
+        Vue.prototype.getNowTimeStr = function() {
+            return moment().format('YYYY-MM-DD HH:mm:ss');
         }
     }
 }

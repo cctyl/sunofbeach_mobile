@@ -316,7 +316,7 @@
                             </div>
                             <!--评论列表-->
                             <div v-if="item.showCommont" class="reviewList" >
-                                <div class="commentInput">
+                                <div class="commentInput"  >
                                     <!--评论填写框-->
                                     <nut-textbox
                                             class="inputBox"
@@ -324,7 +324,7 @@
                                             :max-num="300"
                                             :txt-area-h="80"
                                     ></nut-textbox>
-                                    <button  disabled="disabled" class="submit-btn">发表评论</button>
+                                    <button  @click="sendMoyuComment(item)" class="submit-btn">发表评论</button>
                                 </div>
                                 <div class="reviewItem" v-for="currentComment in item.commentList" :key="currentComment.id">
                                     <!--评论人头像-->
@@ -398,7 +398,7 @@
                                                     </div>
                                                     <!--评论内容-->
                                                     <p class="subreviewBottom">
-                                                        {{currentComment.subComments[0].nickname? '回复 '+currentComment.subComments[0].nickname+':':'' }}
+                                                        {{currentComment.subComments[0].targetUserNickname? '回复 '+currentComment.subComments[0].targetUserNickname+':':'' }}
                                                         {{currentComment.subComments[0].content}}
                                                     </p>
                                                     <!--回复评论的按钮-->
@@ -429,7 +429,7 @@
                                                     </div>
                                                     <!--评论内容-->
                                                     <p class="subreviewBottom">
-                                                        {{subitem.nickname? '回复 '+subitem.nickname+':':'' }}
+                                                        {{subitem.targetUserNickname? '回复 '+subitem.targetUserNickname+':':'' }}
                                                         {{subitem.content}}
                                                     </p>
                                                     <!--回复评论的按钮-->
@@ -474,6 +474,7 @@
     import api from '../../api/index'
     import {parseDomain, fromUrl} from "parse-domain";
     import Vue from 'vue'
+    import {mapState} from "vuex";
     export default {
         name: "Moment",
         data() {
@@ -514,6 +515,9 @@
             this.getMoYuList();
 
             this.getMomentTopicList()
+        },
+        computed:{
+            ...mapState(['userInfo']),
         },
         methods: {
 
@@ -824,6 +828,26 @@
                 }else {
                     console.log("其他链接")
                     window.location.href=url
+                }
+            },
+
+
+            /**
+             * 发表评论
+             * @param commentStr
+             */
+            async sendMoyuComment(momentItem) {
+                console.log("当前的评论内容是：")
+                console.log(momentItem)
+                // let result = await api.sendMoyuComment(momentItem.id, momentItem.commentStr);
+                let result = {success: true}
+                if (result.success) {
+                    this.$toast.success('操作成功！');
+                    momentItem.commentStr = ''
+                    //需要更新回复列表
+                    this.getMomentCommontList(momentItem);
+                } else {
+                    this.$toast.fail('发送失败！' + result.message);
                 }
             }
         }
